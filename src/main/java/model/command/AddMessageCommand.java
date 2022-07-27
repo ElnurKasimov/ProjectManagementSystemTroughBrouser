@@ -20,7 +20,7 @@ public class AddMessageCommand implements Command {
         message.setContent(content);
         message.setId(UUID.randomUUID().toString());
 
-        InMemoryMessageStorage.getInstance().add(message);
+        //InMemoryMessageStorage.getInstance().add(message);
 
         resp.sendRedirect("/app/forum");
 

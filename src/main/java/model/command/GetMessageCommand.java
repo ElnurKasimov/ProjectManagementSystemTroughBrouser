@@ -13,14 +13,18 @@ public class GetMessageCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         resp.setContentType("text/html");
-
+/*
         Context simpleContext = new Context(
                 req.getLocale(),
                 Map.of("messages",
                         InMemoryMessageStorage.getInstance().getAllMessages())
         );
 
+
+
         engine.process("forum", simpleContext, resp.getWriter());
         resp.getWriter().close();
+
+ */
     }
 }

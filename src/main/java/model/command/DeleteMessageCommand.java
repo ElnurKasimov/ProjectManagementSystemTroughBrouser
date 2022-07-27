@@ -12,7 +12,7 @@ public class DeleteMessageCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         String id = req.getParameter("id");
-        InMemoryMessageStorage.getInstance().deleteById(id);
+       // InMemoryMessageStorage.getInstance().deleteById(id);
 
         resp.sendRedirect("/app/forum");
     }
