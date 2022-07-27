@@ -1,7 +1,7 @@
-package model.command;
+package frontcontroller.command;
 
-import control.InMemoryMessageStorage;
 import control.Message;
+import frontcontroller.InMemory2MessageStorage;
 import org.thymeleaf.TemplateEngine;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +20,9 @@ public class AddMessageCommand implements Command {
         message.setContent(content);
         message.setId(UUID.randomUUID().toString());
 
-        //InMemoryMessageStorage.getInstance().add(message);
+        InMemory2MessageStorage.getInstance().add(message);
 
-        resp.sendRedirect("/app/forum");
+        resp.sendRedirect("/");
 
     }
 }

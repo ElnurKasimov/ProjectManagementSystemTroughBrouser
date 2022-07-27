@@ -1,7 +1,7 @@
-package model.command;
+package frontcontroller.command;
 
 
-import control.InMemoryMessageStorage;
+import frontcontroller.InMemory2MessageStorage;
 import org.thymeleaf.TemplateEngine;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +12,8 @@ public class DeleteMessageCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         String id = req.getParameter("id");
-       // InMemoryMessageStorage.getInstance().deleteById(id);
+        InMemory2MessageStorage.getInstance().deleteById(id);
 
-        resp.sendRedirect("/app/forum");
+        resp.sendRedirect("/");
     }
 }

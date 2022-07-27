@@ -1,11 +1,7 @@
 package control;
 
-import model.command.CommandService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.context.EngineContext;
-import org.thymeleaf.context.IContext;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import javax.servlet.ServletException;
@@ -14,11 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@WebServlet("/forum")
+@WebServlet("/forum/*")
 public class DataBaseController extends HttpServlet {
     private TemplateEngine engine;
     private  MessageStorage messageStorage;
@@ -28,7 +23,7 @@ public class DataBaseController extends HttpServlet {
         engine = new TemplateEngine();
 
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("F:/javacore5/javadev_module_6_PMS/templates/");
+        resolver.setPrefix("C:/Users/user/Downloads/tmp/ProjectManagementSystem/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
@@ -40,7 +35,7 @@ public class DataBaseController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
+        resp.setContentType("text/html, charset=utf-8");
 
         Context simpleContext = new Context(
                 req.getLocale(),
@@ -48,21 +43,28 @@ public class DataBaseController extends HttpServlet {
         );
 
         engine.process("forum", simpleContext, resp.getWriter());
+
+
         resp.getWriter().close();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String author = req.getParameter("author");
-        String content = req.getParameter("content");
-        resp.setContentType("text/html");
+        if(req.getRequestURI().contains("delete")) {
+            String id = req.getParameter("id");
+            messageStorage.deleteById(id);
+        } else {
+            String author = req.getParameter("author");
+            String content = req.getParameter("content");
+            resp.setContentType("text/html");
 
-        Message message = new Message();
-        message.setAuthor(author);
-        message.setContent(content);
-        message.setId(UUID.randomUUID().toString());
+            Message message = new Message();
+            message.setAuthor(author);
+            message.setContent(content);
+            message.setId(UUID.randomUUID().toString());
 
-        messageStorage.add(message);
+            messageStorage.add(message);
+        }
 
         resp.sendRedirect("/forum");
     }

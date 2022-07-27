@@ -1,4 +1,4 @@
-package model.command;
+package frontcontroller.command;
 
 import org.thymeleaf.TemplateEngine;
 

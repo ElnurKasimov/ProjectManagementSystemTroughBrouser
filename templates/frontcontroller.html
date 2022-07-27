@@ -30,7 +30,7 @@
 
     <div class="message-content" th:text="${message.content}"></div>
     <div>
-        <form action="/forum/delete" method="POST">
+        <form action="/delete" method="POST">
             <input type="hidden" th:value="${message.id}" name="id">
             <button type="submit">Delete</button>
         </form>
@@ -38,7 +38,7 @@
 </div>
 
 
-<form action="/forum" method="POST">
+<form action="/" method="POST">
     <div>
         <label for="author">Author</label>
         <input type="text" name="author" id="author">

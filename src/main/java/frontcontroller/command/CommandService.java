@@ -1,4 +1,4 @@
-package model.command;
+package frontcontroller.command;
 
 import org.thymeleaf.TemplateEngine;
 
@@ -14,9 +14,9 @@ public class CommandService {
     public CommandService() {
         commands = new HashMap<>();
 
-        commands.put("GET /app/forum", new GetMessageCommand());
-        commands.put("POST /app/forum/delete", new DeleteMessageCommand());
-        commands.put("POST /app/forum", new AddMessageCommand());
+        commands.put("GET /", new GetMessagesCommand());
+        commands.put("POST /delete", new DeleteMessageCommand());
+        commands.put("POST /", new AddMessageCommand());
     }
 
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
