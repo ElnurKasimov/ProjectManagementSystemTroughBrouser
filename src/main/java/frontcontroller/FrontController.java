@@ -1,11 +1,8 @@
 package frontcontroller;
 
-import control.InMemoryMessageStorage;
-import control.Message;
-import control.MessageStorage;
 import frontcontroller.command.CommandService;
+import model.prefs.Prefs;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import javax.servlet.ServletException;
@@ -13,9 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
+
+import static model.prefs.Prefs.FRONTCONTROLLER_TEMPLATES;
 
 @WebServlet("/*")
 public class FrontController extends HttpServlet {
@@ -24,10 +22,11 @@ public class FrontController extends HttpServlet {
 
 
     @Override
-    public void init() throws ServletException {
+    public void init() throws ServletException  {
+
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("C:/Users/user/Downloads/tmp/ProjectManagementSystem/templates/");
+        resolver.setPrefix("F:/javacore5/javadev_module_6_PMS/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());

@@ -15,10 +15,8 @@ public class ChoosePartitionOfDataBaseCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         System.out.println("POST");
-        Map<String, String []> developers = req.getParameterMap();
-        for(Map.Entry<String,String[]> param : developers.entrySet()) {
-            System.out.println("key = " + param.getKey() + " value " + param.getValue()[0]);
-        }
+        System.out.println("developers = " +  req.getParameterValues("devbelopers"));
+
         resp.sendRedirect("/");
 
     }

@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org"
-      lang="en-US">
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,6 +10,27 @@
     <title>Document</title>
 </head>
 <body>
+
+<form class="guruweba_example_form" name="feedback" method="POST" action="/feedback.php">
+    <div class="guruweba_example_caption">Feedback</div>
+    <div class="guruweba_example_infofield">Тheme of request</div>
+    <select name="theme" required="required">
+        <option value="">Select variant</option>
+        <option>Question about service</option>
+        <option>Help in makinf order</option>
+        <option>Соllaboration</option>
+        <option>Wishes/propositions</option>
+    </select>
+    <div>Ваше имя</div>
+    <input type="text" name="name" required="required">
+    <div>Ваш email</div>
+    <input type="email" name="email" required="required">
+    <div>Сообщение</div>
+    <textarea name="message"></textarea>
+    <input type="submit" name="submit_btn" value="Отправить">
+</form>
+
+
 
 <p>Select the database partition you want to work with</p>
 
@@ -23,8 +44,6 @@
     <input type="radio" id="customers" name="main_menu" value="customers">
     <label for="customers">Customers</label>
 </form>
-
-
 
 <h1 th:text="'Messages: ' + ${messages.size()}"></h1>
 
@@ -41,7 +60,7 @@
     </div>
 </div>
 
-<form action="/app/forum" method="POST">
+<form action="/forum" method="POST">
     <div>
         <label for="author">Author</label>
         <input type="text" name="author" id="author">
