@@ -16,7 +16,9 @@ public class CommandService {
 
         commands.put("GET /", new GetMessagesCommand());
         commands.put("POST /delete", new DeleteMessageCommand());
-        commands.put("POST /", new AddMessageCommand());
+        commands.put("POST /", new ChoosePartitionOfDataBaseCommand());
+
+
     }
 
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {

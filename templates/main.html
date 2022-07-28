@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org"
+      lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<p>Select the database partition you want to work with</p>
+
+<form action="/" method="POST">
+    <input type="radio" id="developers" name="main_menu" value="developers">
+    <label for="developers">Developers</label><br>
+    <input type="radio" id="projects" name="main_menu" value="projects">
+    <label for="projects">Projects</label><br>
+    <input type="radio" id="companies" name="main_menu" value="companies">
+    <label for="companies">IT companies</label><br>
+    <input type="radio" id="customers" name="main_menu" value="customers">
+    <label for="customers">Customers</label>
+</form>
+
+
+
+<h1 th:text="'Messages: ' + ${messages.size()}"></h1>
+
+<div th:each="message: ${messages}" class="message">
+    <div th:text="'Author: ' + ${message.author}"></div>
+
+    <div class="message-content" th:text="${message.content}"></div>
+
+    <div>
+        <form action="/app/forum/delete" method="POST">
+            <input type="hidden" th:value="${message.id}" name="id">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+<form action="/app/forum" method="POST">
+    <div>
+        <label for="author">Author</label>
+        <input type="text" name="author" id="author">
+    </div>
+
+    <div>
+        <label for="content">Content</label>
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+    </div>
+
+    <div>
+        <button type="submit">Post message</button>
+    </div>
+</form>
+</body>
+</html>

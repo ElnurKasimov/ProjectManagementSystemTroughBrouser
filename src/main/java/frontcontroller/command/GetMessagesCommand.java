@@ -23,7 +23,7 @@ public class GetMessagesCommand implements Command {
                         InMemory2MessageStorage.getInstance().getAllMessages())
         );
 
-        engine.process("frontcontroller", simpleContext, resp.getWriter());
+        engine.process("main", simpleContext, resp.getWriter());
         resp.getWriter().close();
 
     }
