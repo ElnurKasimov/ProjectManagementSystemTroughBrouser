@@ -1,7 +1,6 @@
-package frontcontroller;
+package control;
 
-import frontcontroller.command.CommandService;
-import model.prefs.Prefs;
+import model.command.CommandService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
@@ -10,10 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-
-import static model.prefs.Prefs.FRONTCONTROLLER_TEMPLATES;
 
 @WebServlet("/*")
 public class FrontController extends HttpServlet {
@@ -35,11 +31,8 @@ public class FrontController extends HttpServlet {
         commandService = new CommandService();
     }
 
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         commandService.process(req, resp, engine);
     }
-
-
 }

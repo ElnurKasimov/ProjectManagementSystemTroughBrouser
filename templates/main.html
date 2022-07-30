@@ -11,69 +11,18 @@
 </head>
 <body>
 
-<form class="guruweba_example_form" name="feedback" method="POST" action="/feedback.php">
-    <div class="guruweba_example_caption">Feedback</div>
-    <div class="guruweba_example_infofield">Тheme of request</div>
-    <select name="theme" required="required">
-        <option value="">Select variant</option>
-        <option>Question about service</option>
-        <option>Help in makinf order</option>
-        <option>Соllaboration</option>
-        <option>Wishes/propositions</option>
-    </select>
-    <div>Ваше имя</div>
-    <input type="text" name="name" required="required">
-    <div>Ваш email</div>
-    <input type="email" name="email" required="required">
-    <div>Сообщение</div>
-    <textarea name="message"></textarea>
-    <input type="submit" name="submit_btn" value="Отправить">
+<form name="radio" method="POST" action="/">
+    <p>Please select a table you want to operate with:</p>
+    <input type="radio" id="Developers" name="table" value="developers">
+    <label for="Developers">Developers</label><br>
+    <input type="radio" id="Projects" name="table" value="projects">
+    <label for="Projects">Projects</label><br>
+    <input type="radio" id="It Companies" name="table" value="companies">
+    <label for="It Companies">It Companies</label><br>
+    <input type="radio" id="Customers" name="table" value="customers">
+    <label for="Customers">Customers</label><br><br>
+    <input type="submit" value="Confirm Your choose">
 </form>
 
-
-
-<p>Select the database partition you want to work with</p>
-
-<form action="/" method="POST">
-    <input type="radio" id="developers" name="main_menu" value="developers">
-    <label for="developers">Developers</label><br>
-    <input type="radio" id="projects" name="main_menu" value="projects">
-    <label for="projects">Projects</label><br>
-    <input type="radio" id="companies" name="main_menu" value="companies">
-    <label for="companies">IT companies</label><br>
-    <input type="radio" id="customers" name="main_menu" value="customers">
-    <label for="customers">Customers</label>
-</form>
-
-<h1 th:text="'Messages: ' + ${messages.size()}"></h1>
-
-<div th:each="message: ${messages}" class="message">
-    <div th:text="'Author: ' + ${message.author}"></div>
-
-    <div class="message-content" th:text="${message.content}"></div>
-
-    <div>
-        <form action="/app/forum/delete" method="POST">
-            <input type="hidden" th:value="${message.id}" name="id">
-            <button type="submit">Delete</button>
-        </form>
-    </div>
-</div>
-
-<form action="/forum" method="POST">
-    <div>
-        <label for="author">Author</label>
-        <input type="text" name="author" id="author">
-    </div>
-
-    <div>
-        <label for="content">Content</label>
-        <textarea name="content" id="content" cols="30" rows="10"></textarea>
-    </div>
-
-    <div>
-        <button type="submit">Post message</button>
-    </div>
-</form>
 </body>
 </html>

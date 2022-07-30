@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
-           xmlns:sec="http://www.thymeleaf.org"
-           lang="en">
+      xmlns:sec="http://www.thymeleaf.org"
+      lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,14 +10,8 @@
     <title>Document</title>
 </head>
 <body>
-<h1 th:text="'Variable count: ' + ${queryParams.size()}"></h1>
 
-<ul>
-    <li th:each="queryParam: ${queryParams}">
-        <span th:text="${queryParam.key}"></span>
-        =
-        <span th:text="${queryParam.value}"></span>
-    </li>
-</ul>
+<h1>Projects</h1>
+
 </body>
 </html>
