@@ -11,7 +11,32 @@
 </head>
 <body>
 
-<h1>Customers</h1>
+<h1>Table :  Customers</h1>
+<h2>You can get such following information from this table</h2>
+
+<div>
+    <h3>1. List of  all customers </h3>
+    <form method="POST" name="listAllCustomers" action="/customers/all_customers">
+        <input type="submit" name="listAllCustomers_submit" value="Get info">
+    </form>
+</div>
+
+<div>
+    <h3>2. Add customer </h3>
+    <form method="POST" name="addCustomer" action="/customers/add">
+        Customer Name: <input type="text" name="customerName"><br>
+        Reputation (trustworthy, respectable, insolvent): <input type="text" name="customerReputation"><br>
+        <input type="submit" name="addCustomer_submit" value="Add">
+    </form>
+</div>
+
+<div>
+    <h3>3. Delete customer </h3>
+    <form method="POST" name="deleteCustomer" action="/customers/delete">
+        Customer Name: <input type="text" name="customerName"><br>
+        <input type="submit" name="deleteCustomer_submit" value="Delete">
+    </form>
+</div>
 
 </body>
 </html>

@@ -11,23 +11,75 @@
 </head>
 <body>
 
-<h1>Table Developers</h1>
-
+<h1>Table :  Developers</h1>
+<h2>You can get such following information from this table</h2>
 <div>
-    <h2>Get info about all developer </h2>
-    <form method="POST" name="getInfoAboutAllDeveloper" action="/developers/1">
-        <input type="submit" name="getInfoAboutAllDeveloper_submit" value="Get info">
+    <h3>1. List of  all developers </h3>
+    <form method="POST" name="listAllDevelopers" action="/developers/all_developers">
+        <input type="submit" name="listAllDevelopers_submit" value="Get info">
     </form>
 </div>
 
 <div>
-    <h2>Get alol info about developer </h2>
-    <form method="POST" name="getInfoAboutDeveloper" action="/developers/2">
-        Last Name: <input type="text" name="lastName"><br>
-        First Name: <input type="text" name="firsrtName"><br>
-        <input type="submit" name="getInfoAboutDeveloper_submit" value="Get info">
+    <h3>2. All info about developer </h3>
+    <form method="POST" name="developer" action="/developers/developer">
+        Last Name: <input type="text" name="developerLastName"><br>
+        First Name: <input type="text" name="developerFirstName"><br>
+        <input type="submit" name="developer_submit" value="Get info">
     </form>
+</div>
 
+<div>
+    <h3>3. Quantity of  Java-developers </h3>
+    <form method="POST" name="javaDevelopers" action="/developers/java_developers">
+        <input type="submit" name="javaDevelopers_submit" value="Get info">
+    </form>
+</div>
+
+<div>
+    <h3>4. List of  middle developers </h3>
+    <form method="POST" name="listMiddleDevelopers" action="/developers/middle_developers">
+        <input type="submit" name="listMiddleDevelopers_submit" value="Get info">
+    </form>
+</div>
+
+<div>
+    <h3>5. Add developer </h3>
+    <form method="POST" name="addDeveloper" action="/developers/add">
+        Last Name: <input type="text" name="developerLastName"><br>
+        First Name: <input type="text" name="developerFirsrtName"><br>
+        Age: <input type="text" name="developerAge"><br>
+        Company: <input type="text" name="developerCompany"><br>
+        Project: <input type="text" name="developerProject"><br>
+        Salary: <input type="text" name="developerSalary"><br>
+        Language (Java, JS, C++, PHP): <input type="text" name="developerLanguage"><br>
+        Language Level (junior, middle, senior): <input type="text" name="developerLanguageLevel"><br>
+        <input type="submit" name="addDeveloper_submit" value="Add">
+    </form>
+</div>
+
+<div>
+<h3>6. Update developer data </h3>
+<form method="POST" name="updateDeveloper" action="/developers/update">
+    Last Name: <input type="text" name="developerLastName"><br>
+    First Name: <input type="text" name="developerFirsrtName"><br>
+    Age: <input type="text" name="developerAge"><br>
+    Company: <input type="text" name="developerCompany"><br>
+    Project: <input type="text" name="developerProject"><br>
+    Salary: <input type="text" name="developerSalary"><br>
+    Language (Java, JS, C++, PHP): <input type="text" name="developerLanguage"><br>
+    Language Level (junior, middle, senior): <input type="text" name="developerLanguageLevel"><br>
+    <input type="submit" name="updateDeveloper_submit" value="Update">
+</form>
+</div>
+
+<div>
+    <h3>7. Delete developer </h3>
+    <form method="POST" name="deleteDveloper" action="/developers/delete">
+        Last Name: <input type="text" name="developerLastName"><br>
+        First Name: <input type="text" name="developerFirstName"><br>
+        <input type="submit" name="deleteDeveloper_submit" value="Delete">
+    </form>
 </div>
 
 </body>

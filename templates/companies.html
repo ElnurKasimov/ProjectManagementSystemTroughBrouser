@@ -11,7 +11,31 @@
 </head>
 <body>
 
-<h1>Companies</h1>
+<h1>Table :  Companies</h1>
+<h2>You can get such following information from this table</h2>
+<div>
+    <h3>1. List of  all companies </h3>
+    <form method="POST" name="listAllCompanies" action="/companies/all_companies">
+        <input type="submit" name="listAllCompanies_submit" value="Get info">
+    </form>
+</div>
+
+<div>
+    <h3>2. Add company </h3>
+    <form method="POST" name="addCompany" action="/companies/add">
+        Company Name: <input type="text" name="companyName"><br>
+        Rating (high, middle, low): <input type="text" name="companyRating"><br>
+        <input type="submit" name="addCompany_submit" value="Add">
+    </form>
+</div>
+
+<div>
+    <h3>3. Delete company </h3>
+    <form method="POST" name="deleteCompany" action="/companies/delete">
+        Company Name: <input type="text" name="projectName"><br>
+        <input type="submit" name="deleteCompany_submit" value="Delete">
+    </form>
+</div>
 
 </body>
 </html>
