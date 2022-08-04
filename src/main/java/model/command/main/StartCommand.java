@@ -13,10 +13,6 @@ public class StartCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         resp.setContentType("text/html, charset=utf-8");
-        Map<String,String[]> parameters = req.getParameterMap();
-        for (Map.Entry<String, String []> entry : parameters.entrySet()) {
-            System.out.println("parametr - " + entry.getKey() + ", value - " + entry.getValue()[0]);
-        }
         Context context = new Context();
         context.setVariable("table", req.getParameter("table"));
         engine.process("main", context, resp.getWriter());

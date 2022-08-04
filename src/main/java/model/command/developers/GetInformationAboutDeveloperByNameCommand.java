@@ -11,6 +11,10 @@ import java.io.IOException;
 public class GetInformationAboutDeveloperByNameCommand  implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
-
+        Context context = new Context();
+        context.setVariable("FirstName", req.getParameter("developerFirstName"));
+        context.setVariable("LastName", req.getParameter("developerLastName"));
+        engine.process("developers_developer", context, resp.getWriter());
+        resp.getWriter().close();
     }
 }

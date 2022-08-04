@@ -24,7 +24,7 @@ public class CommandService {
         commands.put("POST /", new ChooseTableCommand());
         commands.put("GET /developers", new DevelopersMenuCommand());
         commands.put("GET /developers/all_developers", new GetInformationAboutAllDevelopersCommand());
-        commands.put("GET /developers/developer_info", new GetInformationAboutDeveloperByNameCommand());
+        commands.put("POST /developers/developer_info", new GetInformationAboutDeveloperByNameCommand());
         commands.put("GET /developers/quantity_java_developers", new QuantityJavaDevelopersCommand());
         commands.put("GET /developers/middle_developers", new ListMiddleDevelopersCommand());
         commands.put("POST /developers/add", new AddDeveloperCommand());

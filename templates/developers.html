@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<h1>Table :  Developers</h1>
+<h1> th:text= " 'Table: ' + ${table}"</h1>
 <h2>You can get such following information from this table</h2>
 <div>
     <h3>1. List of  all developers </h3>
@@ -22,7 +22,7 @@
 
 <div>
     <h3>2. All info about developer </h3>
-    <form method="POST" name="developer" action="/developers/developer">
+    <form method="POST" name="developer" action="/developers/developer_info">
         Last Name: <input type="text" name="developerLastName"><br>
         First Name: <input type="text" name="developerFirstName"><br>
         <input type="submit" name="developer_submit" value="Get info">
