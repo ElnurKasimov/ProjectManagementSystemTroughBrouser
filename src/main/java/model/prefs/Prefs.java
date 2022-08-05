@@ -3,6 +3,7 @@ package model.prefs;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,9 +27,9 @@ public class Prefs {
 
     public Prefs(String filename) {
         try {
-              String json = String.join(
+            String json = String.join(
                     "\n",
-                    Files.readAllLines(Paths.get(filename).toAbsolutePath())
+                    Files.readAllLines(Paths.get(filename))
             );
 
             TypeToken<?> typeToken = TypeToken.getParameterized(

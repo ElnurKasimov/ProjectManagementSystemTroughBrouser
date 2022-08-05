@@ -22,7 +22,7 @@ public class FrontController extends HttpServlet {
 
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("F:/javacore5/javadev_module_6_PMS/templates/");
+        resolver.setPrefix("C:/Users/user/Downloads/tmp/ProjectManagementSystem/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
