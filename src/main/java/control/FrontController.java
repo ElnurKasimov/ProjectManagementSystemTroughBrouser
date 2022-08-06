@@ -4,6 +4,8 @@ import model.command.CommandService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,14 +17,17 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
     private TemplateEngine engine;
     private CommandService commandService;
-
+    private ServletConfig config;
 
     @Override
-    public void init() throws ServletException  {
+    public void init(ServletConfig config) throws ServletException  {
+        this.config = config;
+        ServletContext sc = config.getServletContext();
+        System.out.println(sc.getRealPath("templates"));
 
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix("C:/Users/user/Downloads/tmp/ProjectManagementSystem/templates/");
+        resolver.setPrefix(sc.getRealPath("templates") + "/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());

@@ -11,6 +11,7 @@ import org.thymeleaf.TemplateEngine;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,41 @@ public class CommandService {
         String requestUri = req.getRequestURI();
         String commandKey = req.getMethod() + " " + requestUri;
         System.out.println(commandKey);
+
+
+            String scheme = req.getScheme();
+            String serverName = req.getServerName();
+            int serverPort = req.getServerPort();
+            String contextPath = req.getContextPath();
+            String servletPath = req.getServletPath();
+            String pathInfo = req.getPathInfo();
+            String queryString = req.getQueryString();
+
+            System.out.println("scheme- " + scheme);
+            System.out.println("server name - " + serverName);
+            System.out.println("serverPort - " + serverPort);
+            System.out.println("servletPath - " + servletPath);
+            System.out.println("contextPath - " + contextPath);
+            System.out.println("pathInfo - " + pathInfo);
+            System.out.println("queryString - " + queryString);
+
+            StringBuilder url = new StringBuilder();
+            url.append(scheme).append("://").append(serverName);
+
+            if (serverPort != 80 && serverPort != 443) {
+                url.append(":").append(serverPort);
+            }
+
+            url.append(contextPath).append(servletPath);
+
+            if (pathInfo != null) {
+                url.append(pathInfo);
+            }
+            if (queryString != null) {
+                url.append("?").append(queryString);
+            }
+        System.out.println(url.toString());
+
         commands.get(commandKey).process(req, resp, engine);
     }
 

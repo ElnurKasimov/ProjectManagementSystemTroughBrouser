@@ -1,6 +1,6 @@
 {
   "dbUrl" :  "jdbc:mysql://127.0.0.1:3307/it_market",
   "dbUserName" :  "root",
-  "dbPassword" :  "$Elnur&Kasimov1972"
-  "templates" : "C:/Users/user"
+  "dbPassword" :  "$Elnur&Kasimov1972",
+  "projectRoot" : "F:/javacore5/javadev_module_6_PMS"
   }

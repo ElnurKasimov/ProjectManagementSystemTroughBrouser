@@ -1,9 +1,8 @@
-package model.prefs;
+package model.default_settings;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,8 +13,7 @@ public class Prefs {
     public static final String DB_JDBC_CONNECTION_URL = "dbUrl";
     public static final String DB_JDBC_USERNAME = "dbUserName";
     public static final String DB_JDBC_PASSWORD = "dbPassword";
-    public static final String FRONTCONTROLLER_TEMPLATES = "frontcontroller_templates"
-            + "/.SmartTomcat/ProjectManagementSystem/ProjectManagementSystem.main/frontcontroller_templates/tempates/";
+    public static final String PROJECT_ROOT = "projectRoot";
 
     public static final String DEFAULT_PREFS_FILENAME = "prefs.json";
 
