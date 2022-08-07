@@ -23,6 +23,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
 // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
     implementation 'org.thymeleaf:thymeleaf:3.1.0.M2'
+// https://mvnrepository.com/artifact/org.flywaydb/flyway-core
+    implementation 'org.flywaydb:flyway-core:9.1.2'
 
 }
 

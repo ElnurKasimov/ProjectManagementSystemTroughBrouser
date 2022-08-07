@@ -1,6 +1,8 @@
 package control;
 
 import model.command.CommandService;
+import model.default_settings.DBConnection;
+import model.default_settings.Migration;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
@@ -18,22 +20,27 @@ public class FrontController extends HttpServlet {
     private TemplateEngine engine;
     private CommandService commandService;
     private ServletConfig config;
+    public static String PROJECT_ROOT;
+    public static final int LENGTH_SUBDIRECTORIES_NAMES = 16;
 
     @Override
     public void init(ServletConfig config) throws ServletException  {
         this.config = config;
         ServletContext sc = config.getServletContext();
-        System.out.println(sc.getRealPath("templates"));
-
+        String tomcatDestination = sc.getRealPath("/").replace('\\', '/') ;
+        PROJECT_ROOT = tomcatDestination.substring(0, tomcatDestination.length()- LENGTH_SUBDIRECTORIES_NAMES);
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix(sc.getRealPath("templates") + "/");
+        resolver.setPrefix(PROJECT_ROOT  + "src/main//webapp/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
         resolver.setCacheable(false);
         engine.addTemplateResolver(resolver);
+
         commandService = new CommandService();
+        DBConnection dbConnection = DBConnection.getInstance();
+        new Migration().initDb(dbConnection);
     }
 
     @Override
