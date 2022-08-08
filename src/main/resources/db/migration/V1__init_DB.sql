@@ -4,7 +4,7 @@ company_id int not null auto_increment,
 company_name varchar(100),
 rating varchar(50) not null, 
 PRIMARY KEY (company_id),
-check (rating in ('low', 'middle', 'hight'))
+check (rating in ('low', 'middle', 'high'))
 );
 CREATE TABLE developers (
     developer_id int not null AUTO_INCREMENT,

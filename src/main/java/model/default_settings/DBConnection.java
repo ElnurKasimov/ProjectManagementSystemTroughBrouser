@@ -1,11 +1,13 @@
 package model.default_settings;
 
 import control.FrontController;
+import lombok.Data;
 
 import java.sql.*;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+@Data
 public class DBConnection {
     private static final DBConnection INSTANCE = new DBConnection();
     private Connection connection;
@@ -26,16 +28,12 @@ public class DBConnection {
             System.out.println("db password - " + dbPassword);
 
  */
-           // Class.forName("com.mysql.jdbc.Driver");
-            Enumeration<Driver> e = DriverManager.getDrivers();
-//Printing the list
-            while(e.hasMoreElements()) {
-                System.out.println(e.nextElement().getClass());
-            }
+            connectionUrl = "jdbc:mysql://127.0.0.1:3307/it_market";
+            dbUser = "root";
+            dbPassword = "$Elnur&Kasimov1972";
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
 
-            //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/it_market", "root", "$Elnur&Kasimov1972");
             System.out.println("Connection is istablished");
 
         } catch (Exception ex) {

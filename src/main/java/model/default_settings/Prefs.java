@@ -45,7 +45,7 @@ public class Prefs {
                     line = reader.readLine();
                 }
                 System.out.println(json);
-                
+
             TypeToken<?> typeToken = TypeToken.getParameterized(
                     Map.class,
                     String.class,
