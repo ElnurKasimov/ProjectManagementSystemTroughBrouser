@@ -2,10 +2,9 @@ package model.default_settings;
 
 import control.FrontController;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Enumeration;
+import java.util.Iterator;
 
 public class DBConnection {
     private static final DBConnection INSTANCE = new DBConnection();
@@ -16,7 +15,7 @@ public class DBConnection {
 
     private DBConnection() {
         try {
-
+/*
             System.out.println(FrontController.PROJECT_ROOT);
             Prefs prefs = new Prefs("F:/javacore5/javadev_module_6_PMS/");
             connectionUrl = prefs.getString(Prefs.DB_JDBC_CONNECTION_URL);
@@ -26,7 +25,19 @@ public class DBConnection {
             System.out.println(" db User  - " + dbUser);
             System.out.println("db password - " + dbPassword);
 
-            connection = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
+ */
+           // Class.forName("com.mysql.jdbc.Driver");
+            Enumeration<Driver> e = DriverManager.getDrivers();
+//Printing the list
+            while(e.hasMoreElements()) {
+                System.out.println(e.nextElement().getClass());
+            }
+
+            //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/it_market", "root", "$Elnur&Kasimov1972");
+            System.out.println("Connection is istablished");
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }

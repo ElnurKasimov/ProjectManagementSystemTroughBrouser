@@ -1,4 +1,3 @@
-create database it_market;
 use it_market;
 create table companies (
 company_id int not null auto_increment,

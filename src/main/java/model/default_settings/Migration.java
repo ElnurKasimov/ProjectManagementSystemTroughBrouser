@@ -6,7 +6,7 @@ public class Migration {
     public void initDb(DBConnection dbConnection) {
         Flyway flyway = Flyway
                     .configure()
-                    .dataSource(DBConnection.getInstance().connectionUrl, DBConnection.getInstance().dbUser, DBConnection.getInstance().dbPassword)
+                    .dataSource("jdbc:mysql://127.0.0.1:3306/it_market", "root", "$Elnur&Kasimov1972")
                     .load();
         flyway.migrate();
         }

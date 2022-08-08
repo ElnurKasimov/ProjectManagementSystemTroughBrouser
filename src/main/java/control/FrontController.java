@@ -19,6 +19,8 @@ import java.io.IOException;
 public class FrontController extends HttpServlet {
     private TemplateEngine engine;
     private CommandService commandService;
+    private DBConnection dbConnection;
+
     private ServletConfig config;
     public static String PROJECT_ROOT;
     public static final int LENGTH_SUBDIRECTORIES_NAMES = 16;
@@ -39,7 +41,9 @@ public class FrontController extends HttpServlet {
         engine.addTemplateResolver(resolver);
 
         commandService = new CommandService();
-        DBConnection dbConnection = DBConnection.getInstance();
+
+        dbConnection = DBConnection.getInstance();
+
         new Migration().initDb(dbConnection);
     }
 
