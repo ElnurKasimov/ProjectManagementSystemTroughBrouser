@@ -28,10 +28,10 @@ public class DBConnection {
             System.out.println("db password - " + dbPassword);
 
  */
-            connectionUrl = "jdbc:mysql://127.0.0.1:3307/it_market";
+            connectionUrl = "jdbc:mysql://127.0.0.1:3306/it_market";
             dbUser = "root";
             dbPassword = "$Elnur&Kasimov1972";
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(connectionUrl, dbUser, dbPassword);
 
             System.out.println("Connection is istablished");
