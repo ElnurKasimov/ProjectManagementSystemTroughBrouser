@@ -1,20 +1,24 @@
 package model.command.main;
 
 import model.command.Command;
+import model.dao.DeveloperDaoService;
+import model.default_settings.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ChooseTableCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         Context context = new Context();
+
         switch(req.getParameter("table")) {
             case "developers":
-               resp.sendRedirect("/developers");
+                resp.sendRedirect("/developers");
                 break;
             case "projects":
                 resp.sendRedirect("/projects");

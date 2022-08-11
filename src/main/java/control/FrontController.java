@@ -1,6 +1,7 @@
 package control;
 
 import model.command.CommandService;
+import model.dao.DeveloperDaoService;
 import model.default_settings.DBConnection;
 import model.default_settings.Migration;
 import org.thymeleaf.TemplateEngine;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/*")
 public class FrontController extends HttpServlet {
@@ -41,10 +43,10 @@ public class FrontController extends HttpServlet {
         engine.addTemplateResolver(resolver);
 
         commandService = new CommandService();
-
         dbConnection = DBConnection.getInstance();
-
         new Migration().initDb(dbConnection);
+
+
     }
 
     @Override
