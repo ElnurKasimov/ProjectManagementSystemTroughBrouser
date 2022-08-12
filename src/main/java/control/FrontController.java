@@ -32,7 +32,7 @@ public class FrontController extends HttpServlet {
         this.config = config;
         ServletContext sc = config.getServletContext();
         String tomcatDestination = sc.getRealPath("/").replace('\\', '/') ;
-        PROJECT_ROOT = tomcatDestination.substring(0, tomcatDestination.length()- LENGTH_SUBDIRECTORIES_NAMES);
+        PROJECT_ROOT = tomcatDestination.substring(0, tomcatDestination.length() - LENGTH_SUBDIRECTORIES_NAMES);
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
         resolver.setPrefix(PROJECT_ROOT  + "src/main//webapp/templates/");

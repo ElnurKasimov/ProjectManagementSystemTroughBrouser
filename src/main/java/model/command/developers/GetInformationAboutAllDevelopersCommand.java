@@ -20,12 +20,12 @@ public class GetInformationAboutAllDevelopersCommand  implements Command {
         try {
             DeveloperDaoService developerDaoService = new DeveloperDaoService(DBConnection.getInstance().getConnection());
             resp.setContentType("text/html");
-            Map<String, Object> parametrMap = new HashMap<>();
-            parametrMap.put("question", "List of all developers:");
-            parametrMap.put("lines",developerDaoService.getAllNames());
+            Map<String, Object> parameterMap = new HashMap<>();
+            parameterMap.put("question", "List of all developers:");
+            parameterMap.put("lines",developerDaoService.getAllNames());
             Context context = new Context(
                     req.getLocale(),
-                    parametrMap
+                    parameterMap
                     );
             engine.process("result", context, resp.getWriter());
             resp.getWriter().close();

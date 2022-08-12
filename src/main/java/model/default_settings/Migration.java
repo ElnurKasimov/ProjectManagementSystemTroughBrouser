@@ -8,8 +8,6 @@ public class Migration {
                     .configure()
                     .dataSource(dbConnection.getConnectionUrl(), dbConnection.getDbUser(), dbConnection.getDbPassword())
                     .load();
-
         flyway.migrate();
-        System.out.println("migrations has been completed");
-        }
+    }
 }

@@ -1,5 +1,7 @@
 package model.dao;
 
+import com.google.protobuf.MapEntry;
+
 import java.sql.*;
 import java.util.*;
 
@@ -127,15 +129,14 @@ public class DeveloperDaoService {
         );
     }
 
-
-
-
-
     public List<String> getAllNames() throws SQLException {
         List<String> lines = new ArrayList<>();
         try (ResultSet rs = getInfoForAllDevelopers.executeQuery()) {
             while (rs.next()) {
-                lines.add(rs.getLong("developer_id") + ". " + rs.getString("firstName") + " " + rs.getString("lastName"));
+                lines.add(rs.getLong("developer_id") + ". "
+                        + rs.getString("firstName")
+
+                        + " " + rs.getString("lastName"));
             }
         }
         return lines;
@@ -148,10 +149,10 @@ public class DeveloperDaoService {
         try (ResultSet rs = getInfoByNameSt.executeQuery()) {
             while (rs.next()) {
                 long id = getIdByName(lastName, firstName);
-                lines.add("id " + id);
-                lines.add(", Возраст -  " + rs.getInt("age")+ ", ");
-                lines.add("Работает в компании -  " + rs.getString("company_name") + ", ");
-                lines.add("Зарплата -  " + rs.getInt("salary")+ "; ");
+                lines.add(" id " + id + ",");
+                lines.add(" Age -  " + rs.getInt("age")+ ", ");
+                lines.add(" Works in company -  " + rs.getString("company_name") + ", ");
+                lines.add(" Salary -  " + rs.getInt("salary")+ "; ");
                 List<String> temporatyList1 = getSkillsById(id);
                 for (String line: temporatyList1) {
                     lines.add(line);
@@ -168,10 +169,10 @@ public class DeveloperDaoService {
     public List<String> getSkillsById(long id) throws SQLException {
         getSkillsByIdSt.setLong(1, id);
         List<String> languageKnowledge = new ArrayList<>();
-        languageKnowledge.add("\tВладеет языками: ");
+        languageKnowledge.add("   Programming in such languages: ");
         try (ResultSet rs = getSkillsByIdSt.executeQuery()) {
             while (rs.next()) {
-                languageKnowledge.add("\t\t" + rs.getString("language") + " -  " + rs.getString("level") + ";  ");
+                languageKnowledge.add(" - " + rs.getString("language") + " -  " + rs.getString("level") + ";  ");
             }
         }
         return languageKnowledge;
@@ -180,32 +181,37 @@ public class DeveloperDaoService {
     public List<String> getProjectsById(long id) throws SQLException {
         getProjectsByIdSt.setLong(1, id);
         List<String> projectsParticipation = new ArrayList<>();
-        projectsParticipation.add("\tУчаствует в проектах: ");
+        projectsParticipation.add("   Takes part in the projects: ");
         try (ResultSet rs = getProjectsByIdSt.executeQuery()) {
             while (rs.next()) {
-                projectsParticipation.add("\t\t" + rs.getString("project_name") + ".");
+                projectsParticipation.add(" - " + rs.getString("project_name") + ";");
             }
         }
         return projectsParticipation;
     }
 
-    public void getQuantityJavaDevelopers() throws SQLException {
+    public List<String>  getQuantityJavaDevelopers() throws SQLException {
         int count = 0;
+        List<String> lines = new ArrayList<>();
         try (ResultSet rs = getQuantityJavaDevelopersSt.executeQuery()) {
             rs.next();
             count = rs.getInt("quantityLanguageDevelopers");
         }
-        System.out.println("\tВо всех компаниях работат  " + count  + " Java-разработчиков");
+        lines.add(" In all companies works  " + count  + " Java-developers");
+        return lines;
     }
 
-    public void getListMiddleDevelopers() throws SQLException {
-        System.out.println("\tCписок всех разработчиков с уровнем знания языка middle: ");
+    public List<String> getListMiddleDevelopers() throws SQLException {
+        List<String> lines = new ArrayList<>();
+        lines.add(" List of all developers with language knowledge level \"middle\": ");
+        lines.add("--");
         try (ResultSet rs = getListMiddleDevelopersSt.executeQuery()) {
             while (rs.next()) {
-                System.out.print(rs.getString("lastName" ) + " " +  rs.getString("firstName"));
-                System.out.println(",  язык - " + rs.getString("language"));
+                lines.add(rs.getString("lastName" ) + " " +  rs.getString("firstName") +
+                       ",  language - " + rs.getString("language"));
             }
         }
+        return lines;
     }
 
     public long getIdByName(String lastName, String firstName) throws SQLException {
@@ -219,7 +225,9 @@ public class DeveloperDaoService {
         return id;
     }
 
-    public int addDeveloper(String lastName, String firstName) throws SQLException {
+    public List<String> addDeveloper(String lastName, String firstName) throws SQLException {
+        List<String> lines = new ArrayList<>();
+
 /*
         long newDeveloperId;
         try(ResultSet rs = selectMaxIdSt.executeQuery()) {
@@ -292,7 +300,7 @@ public class DeveloperDaoService {
         if (existsDeveloper(newDeveloperId)) {System.out.println("Разработчик успешно добавлен");}
         else System.out.println("Что-то пошло не так и разработчик не был добавлен в базу данных");
  */
-        return +1;
+        return lines;
     }
 
     public boolean existsDeveloper(long id) throws SQLException {
