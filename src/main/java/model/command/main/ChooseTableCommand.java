@@ -14,8 +14,7 @@ import java.sql.SQLException;
 public class ChooseTableCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
-        Context context = new Context();
-
+        //Context context = new Context();
         switch(req.getParameter("table")) {
             case "developers":
                 resp.sendRedirect("/developers");

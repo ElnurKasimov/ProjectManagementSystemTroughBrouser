@@ -10,28 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GetInformationAboutAllDevelopersCommand  implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
-        //todo
-        // 1. создать темплейт  developers_list_all_developers  для вывода всех разрабов
-        // 2. подкорректировать getAllNames() в DaoDeveloperService.
-
         try {
             DeveloperDaoService developerDaoService = new DeveloperDaoService(DBConnection.getInstance().getConnection());
-
             resp.setContentType("text/html");
-
+            Map<String, Object> parametrMap = new HashMap<>();
+            parametrMap.put("question", "List of all developers:");
+            parametrMap.put("lines",developerDaoService.getAllNames());
             Context context = new Context(
                     req.getLocale(),
-                    Map.of("developers", developerDaoService.getAllNames())
-            );
-
-            engine.process("developers_list_all_developers", context, resp.getWriter());
+                    parametrMap
+                    );
+            engine.process("result", context, resp.getWriter());
             resp.getWriter().close();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

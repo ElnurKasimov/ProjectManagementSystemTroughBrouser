@@ -132,53 +132,61 @@ public class DeveloperDaoService {
 
 
     public List<String> getAllNames() throws SQLException {
-
         List<String> lines = new ArrayList<>();
-
         try (ResultSet rs = getInfoForAllDevelopers.executeQuery()) {
             while (rs.next()) {
-                System.out.print(rs.getLong("developer_id"));
-                System.out.print( ". " + rs.getString("firstName"));
-                System.out.println(" " + rs.getString("lastName"));
+                lines.add(rs.getLong("developer_id") + ". " + rs.getString("firstName") + " " + rs.getString("lastName"));
             }
         }
         return lines;
     }
 
-    public void getInfoByName(String lastName, String firstName ) throws SQLException {
+    public List<String> getInfoByName(String lastName, String firstName ) throws SQLException {
         getInfoByNameSt.setString(1, "%" + lastName + "%");
         getInfoByNameSt.setString(2, "%" + firstName + "%");
+        List<String> lines = new ArrayList<>();
         try (ResultSet rs = getInfoByNameSt.executeQuery()) {
             while (rs.next()) {
                 long id = getIdByName(lastName, firstName);
-                System.out.print("id " + id);
-                System.out.print(", Возраст -  " + rs.getInt("age")+ ", ");
-                System.out.print("Работает в компании -  " + rs.getString("company_name") + ", ");
-                System.out.println("Зарплата -  " + rs.getInt("salary")+ "; ");
-                getSkillsById(id);
-                getProjectsById(id);
+                lines.add("id " + id);
+                lines.add(", Возраст -  " + rs.getInt("age")+ ", ");
+                lines.add("Работает в компании -  " + rs.getString("company_name") + ", ");
+                lines.add("Зарплата -  " + rs.getInt("salary")+ "; ");
+                List<String> temporatyList1 = getSkillsById(id);
+                for (String line: temporatyList1) {
+                    lines.add(line);
+                }
+                List<String> temporatyList2 = getProjectsById(id);
+                for (String line: temporatyList2) {
+                    lines.add(line);
+                }
             }
         }
+        return lines;
     }
 
-    public void getSkillsById(long id) throws SQLException {
+    public List<String> getSkillsById(long id) throws SQLException {
         getSkillsByIdSt.setLong(1, id);
-        System.out.println("\tВладеет языками: ");
+        List<String> languageKnowledge = new ArrayList<>();
+        languageKnowledge.add("\tВладеет языками: ");
         try (ResultSet rs = getSkillsByIdSt.executeQuery()) {
             while (rs.next()) {
-                System.out.println("\t\t" + rs.getString("language") + " -  " + rs.getString("level") + ";  ");
+                languageKnowledge.add("\t\t" + rs.getString("language") + " -  " + rs.getString("level") + ";  ");
             }
         }
+        return languageKnowledge;
     }
 
-    public void getProjectsById(long id) throws SQLException {
+    public List<String> getProjectsById(long id) throws SQLException {
         getProjectsByIdSt.setLong(1, id);
-        System.out.println("\tУчаствует в проектах: ");
+        List<String> projectsParticipation = new ArrayList<>();
+        projectsParticipation.add("\tУчаствует в проектах: ");
         try (ResultSet rs = getProjectsByIdSt.executeQuery()) {
             while (rs.next()) {
-                System.out.println("\t\t" + rs.getString("project_name") + ".");
+                projectsParticipation.add("\t\t" + rs.getString("project_name") + ".");
             }
         }
+        return projectsParticipation;
     }
 
     public void getQuantityJavaDevelopers() throws SQLException {
