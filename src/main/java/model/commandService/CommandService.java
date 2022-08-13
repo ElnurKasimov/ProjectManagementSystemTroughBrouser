@@ -1,11 +1,11 @@
-package model.command;
+package model.commandService;
 
-import model.command.companies.CompaniesMenuCommand;
-import model.command.customers.CustomersMenuCommand;
-import model.command.developers.*;
-import model.command.main.ChooseTableCommand;
-import model.command.main.StartCommand;
-import model.command.projects.ProjectsMenuCommand;
+import view.commands.companies.CompaniesMenuCommand;
+import view.commands.customers.CustomersMenuCommand;
+import view.commands.developers.*;
+import view.commands.main.ChooseTableCommand;
+import view.commands.main.StartCommand;
+import view.commands.projects.ProjectsMenuCommand;
 import org.thymeleaf.TemplateEngine;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +31,6 @@ public class CommandService {
         commands.put("GET /developers/java_developers", new QuantityJavaDevelopersCommand());
         commands.put("GET /developers/middle_developers", new ListMiddleDevelopersCommand());
         commands.put("POST /developers/add", new AddDeveloperCommand());
-
-
         commands.put("POST /developers/update", new UpdateDeveloperCommand());
         commands.put("POST /developers/delete", new DeleteDeveloperCommand());
 

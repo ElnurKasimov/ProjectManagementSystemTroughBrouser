@@ -1,11 +1,13 @@
 package model.dao;
 
 import com.google.protobuf.MapEntry;
+import model.default_settings.DBConnection;
 
 import java.sql.*;
 import java.util.*;
 
 public class DeveloperDaoService {
+    public static DeveloperDaoService INSTANCE;
     public static  List<Developer> developers = new ArrayList<>();
     private PreparedStatement getAllLastNamesSt;
     private PreparedStatement getInfoForAllDevelopers;
@@ -25,8 +27,7 @@ public class DeveloperDaoService {
     private PreparedStatement deleteDeveloperFromProjectDevelopersByIdSt;
     private PreparedStatement deleteDeveloperFromDevelopersSkillsByIdSt;
 
-
-    public DeveloperDaoService(Connection connection) throws SQLException {
+    private  DeveloperDaoService(Connection connection) throws SQLException {
         PreparedStatement getAllInfoSt = connection.prepareStatement(
                 "SELECT * FROM developers"
         );
@@ -129,6 +130,17 @@ public class DeveloperDaoService {
         );
     }
 
+    public static DeveloperDaoService  getInstance(Connection connection) {
+        if (INSTANCE == null) {
+            try {
+                INSTANCE = new DeveloperDaoService(DBConnection.getInstance().getConnection());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return INSTANCE;
+    }
+
     public List<String> getAllNames() throws SQLException {
         List<String> lines = new ArrayList<>();
         try (ResultSet rs = getInfoForAllDevelopers.executeQuery()) {
@@ -154,13 +166,9 @@ public class DeveloperDaoService {
                 lines.add(" Works in company -  " + rs.getString("company_name") + ", ");
                 lines.add(" Salary -  " + rs.getInt("salary")+ "; ");
                 List<String> temporatyList1 = getSkillsById(id);
-                for (String line: temporatyList1) {
-                    lines.add(line);
-                }
+                lines.addAll(temporatyList1);
                 List<String> temporatyList2 = getProjectsById(id);
-                for (String line: temporatyList2) {
-                    lines.add(line);
-                }
+                lines.addAll(temporatyList2);
             }
         }
         return lines;
@@ -225,10 +233,8 @@ public class DeveloperDaoService {
         return id;
     }
 
-    public List<String> addDeveloper(String lastName, String firstName) throws SQLException {
+    public List<String> addDeveloper(TemporaryDeveloper temporaryDeveloper) throws SQLException {
         List<String> lines = new ArrayList<>();
-
-/*
         long newDeveloperId;
         try(ResultSet rs = selectMaxIdSt.executeQuery()) {
             rs.next();
@@ -236,70 +242,62 @@ public class DeveloperDaoService {
         }
         newDeveloperId++;
         addDeveloperSt.setLong(1, newDeveloperId);
-        addDeveloperSt.setString(2, lastName);
-        addDeveloperSt.setString(3, firstName);
-        Scanner sc5 = new Scanner(System.in);
-        System.out.print("\tВозраст разработчика : ");
-        int age = sc5.nextInt();
-        addDeveloperSt.setInt(4, age);
-        System.out.print("\tНазвание компании, в которой он работает : ");
-        String company = sc5.nextLine();
-        if(company.equals("")) company= sc5.nextLine();
+        addDeveloperSt.setString(2, temporaryDeveloper.getLastName());
+        addDeveloperSt.setString(3, temporaryDeveloper.getFirstName());
+        addDeveloperSt.setInt(4, temporaryDeveloper.getAge());
         boolean isCompanyNameCorrect = false;
+        List<Company> companies = CompanyDaoService.companies;
         for (Company companyFromField : CompanyDaoService.companies) {
-            if (companyFromField.getCompany_name().equals(company)) {
+            if (companyFromField.getCompany_name().equals(temporaryDeveloper.getCompanyName())) {
                 isCompanyNameCorrect = true;
             };
         }
         if (!isCompanyNameCorrect) {
-            System.out.println("Компании с таким именем не существует. Введите корректные данные или внесите эту компанию в базу данных в разделе \"companies\" ");
-            return -1;
+            lines.add("There is no company with such name. Please input this into database in the section \"companies\" ");
+            return lines;
         }
-        long companyId = new CompanyDaoService(Storage.getInstance().getConnection()).getIdCompanyByName(company);
+        long companyId = CompanyDaoService.getInstance(
+                DBConnection.getInstance().getConnection()).getIdCompanyByName(temporaryDeveloper.getCompanyName());
         addDeveloperSt.setLong(5, companyId);
-        System.out.println("\tЭта компания разрабатывает следующие проекты:");
-        ArrayList<String> companyProjects = new CompanyDaoService(Storage.getInstance().getConnection()).getCompanyProjects(company);
+        boolean isProjectNameCorrect = false;
+        ArrayList<String> companyProjects = CompanyDaoService.getInstance(
+                DBConnection.getInstance().getConnection()).getCompanyProjects(temporaryDeveloper.getCompanyName());
         for (String project : companyProjects) {
-            System.out.println("\t\t" + project);
+            if (project.equals(temporaryDeveloper.getProjectName())) {
+                isProjectNameCorrect = true;
+            };
         }
-        System.out.print("Укажите тот, в котором участвует этот разработчик : ");
-        String project = sc5.nextLine();
-        long projectId = new ProjectDaoService(Storage.getInstance().getConnection()).getIdProjectByName(project);
+        if (!isProjectNameCorrect) {
+            lines.add("This company doesn't develop project with such name. You can find info about all projects in the section \"projects\" ");
+            return lines;
+        }
+        long projectId = ProjectDaoService.getInstance(
+                DBConnection.getInstance().getConnection()).getIdProjectByName(temporaryDeveloper.getProjectName());
         addProjectDeveloperSt.setLong(1, projectId);
         addProjectDeveloperSt.setLong(2, newDeveloperId);
-        System.out.print("\tЗарплата разработчика : ");
-        int salary = sc5.nextInt();
-        addDeveloperSt.setInt(6, salary);
+        addDeveloperSt.setInt(6, temporaryDeveloper.getSalary());
         Developer developer = new Developer();
         developer.setDeveloper_id(newDeveloperId);
-        developer.setLastName(lastName);
-        developer.setFirstName(firstName);
-        developer.setAge(age);
+        developer.setLastName(temporaryDeveloper.getLastName());
+        developer.setFirstName(temporaryDeveloper.getFirstName());
+        developer.setAge(temporaryDeveloper.getAge());
         developer.setCompany_id(companyId);
-        developer.setSalary(salary);
+        developer.setSalary(temporaryDeveloper.getSalary());
         developers.add(developer);
-        System.out.print("\tКаким языком владеет (Java, JS, C++, PHP) : ");
-        String language = sc5.nextLine();
-        if(language.equals("")) language= sc5.nextLine();
-        System.out.print("\tУровень знания языка (junior, middle, senior) : ");
-        String level = sc5.nextLine();
-        getIdSkillByLanguageAndLevelSt.setString( 1, "%" + language + "%");
-        getIdSkillByLanguageAndLevelSt.setString( 2, "%" + level + "%");
+        getIdSkillByLanguageAndLevelSt.setString( 1, "%" + temporaryDeveloper.getLanguage() + "%");
+        getIdSkillByLanguageAndLevelSt.setString( 2, "%" + temporaryDeveloper.getLanguageLevel() + "%");
         long skillId;
         try(ResultSet rs = getIdSkillByLanguageAndLevelSt.executeQuery()) {
             rs.next();
             skillId = rs.getLong("skill_id");
         }
-
         addDeveloperSkillSt.setLong(1, newDeveloperId);
         addDeveloperSkillSt.setLong(2, skillId);
-
         addDeveloperSt.executeUpdate();
         addProjectDeveloperSt.executeUpdate();
         addDeveloperSkillSt.executeUpdate();
-        if (existsDeveloper(newDeveloperId)) {System.out.println("Разработчик успешно добавлен");}
-        else System.out.println("Что-то пошло не так и разработчик не был добавлен в базу данных");
- */
+        if (existsDeveloper(newDeveloperId)) lines.add("was successfully added");
+        else lines.add("Something went wrong and the developer was not added to the database");
         return lines;
     }
 
@@ -311,7 +309,24 @@ public class DeveloperDaoService {
         }
     }
 
-    public void deleteDeveloper(String lastName, String firstName) throws SQLException {
+    public List<String> updateDeveloper(TemporaryDeveloper temporaryDeveloper) {
+        List<String> lines = new ArrayList<>();
+        long idToDelete;
+        try {
+            idToDelete = DeveloperDaoService.getInstance(DBConnection.getInstance().getConnection()).
+                                     getIdByName(temporaryDeveloper.getLastName(), temporaryDeveloper.getFirstName());
+            DeveloperDaoService.getInstance(DBConnection.getInstance().getConnection()).deleteDeveloper(idToDelete);
+
+            addDeveloper(temporaryDeveloper);
+           lines.add("was successfully updated");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
+    public List<String> deleteDeveloper(String lastName, String firstName) throws SQLException {
+        List<String> lines = new ArrayList<>();
         long idToDelete = getIdByName( lastName, firstName);
         deleteDeveloperFromProjectDevelopersByIdSt.setLong(1, idToDelete);
         deleteDeveloperFromProjectDevelopersByIdSt.executeUpdate();
@@ -320,10 +335,11 @@ public class DeveloperDaoService {
         deleteDeveloperFromDevelopersByIdSt.setLong(1, idToDelete);
         deleteDeveloperFromDevelopersByIdSt.executeUpdate();
         developers.removeIf(nextDeveloper -> nextDeveloper.getDeveloper_id() == idToDelete);
-        if (!existsDeveloper(idToDelete)) { System.out.println("Разработчик успешно удален из базы данных.");}
+        if (!existsDeveloper(idToDelete)) {lines.add("Successfully removed from the database.");}
         else {
-            System.out.println("Что-то пошло не так и разработчик не был удален из базы данных");
+            lines.add("Something went wrong and the developer was not removed to the database");
         }
+        return lines;
     }
 
     public void deleteDeveloper(long id) throws SQLException {
@@ -334,9 +350,6 @@ public class DeveloperDaoService {
         deleteDeveloperFromDevelopersByIdSt.setLong(1, id);
         deleteDeveloperFromDevelopersByIdSt.executeUpdate();
         developers.removeIf(nextDeveloper -> nextDeveloper.getDeveloper_id() == id);
-        if (!existsDeveloper(id)) { System.out.println("Разработчик успешно удален из базы данных.");}
-        else {
-            System.out.println("Что-то пошло не так и разработчик не был удален из базы данных");
-        }
     }
+
 }

@@ -1,6 +1,6 @@
-package model.command.developers;
+package view.commands.developers;
 
-import model.command.Command;
+import model.commandService.Command;
 import model.dao.DeveloperDaoService;
 import model.default_settings.DBConnection;
 import org.thymeleaf.TemplateEngine;
@@ -11,22 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class GetInformationAboutAllDevelopersCommand  implements Command {
+public class ListMiddleDevelopersCommand  implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         try {
-            DeveloperDaoService developerDaoService = new DeveloperDaoService(DBConnection.getInstance().getConnection());
             resp.setContentType("text/html");
             Map<String, Object> parameterMap = new HashMap<>();
-            parameterMap.put("question", "List of all developers:");
-            parameterMap.put("lines",developerDaoService.getAllNames());
+            parameterMap.put("question", "List of  middle-developers:");
+            parameterMap.put("lines", DeveloperDaoService.getInstance(DBConnection.getInstance().getConnection()).getListMiddleDevelopers());
             Context context = new Context(
                     req.getLocale(),
                     parameterMap
-                    );
+            );
             engine.process("result", context, resp.getWriter());
             resp.getWriter().close();
         } catch (SQLException e) {
