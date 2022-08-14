@@ -134,49 +134,52 @@ public class ProjectDaoService {
         return INSTANCE;
     }
 
-    public void getAllNames() throws SQLException {
-        System.out.println("Список всех  проектов :");
+    public List<String> getAllNames() throws SQLException {
+       List<String> lines = new ArrayList<>();
         try (ResultSet rs = getAllNamesSt.executeQuery()) {
             while (rs.next()) {
                 long projectID = rs.getLong("project_id");
                 String projectName = rs.getString("project_name");
-                System.out.println("\t" + projectID + ". " + projectName);
+                lines.add( projectID + ". " + projectName);
             }
+            return lines;
         }
     }
 
 
-    public void getInfoByName(String name ) throws SQLException {
-        System.out.print("\t\tзаказан заказчиком ");
+    public List<String> getInfoByName(String name ) throws SQLException {
+        List<String> lines = new ArrayList<>();
         getCustomerNameByProjectNameSt.setString(1,  name );
         try (ResultSet rs1 = getCustomerNameByProjectNameSt.executeQuery()) {
             while (rs1.next()) {
-                System.out.println( rs1.getString("customer_name"));
+                lines.add("ordered by the customer   " + rs1.getString("customer_name"));
             }
         }
-        System.out.print("\t\tразрабатывается компанией ");
         getCompanyNameByProjectNameSt.setString(1, name);
         try (ResultSet rs2 = getCompanyNameByProjectNameSt.executeQuery()) {
             while (rs2.next()) {
-                System.out.println( rs2.getString("company_name"));
+                lines.add("developed by the IT company " + rs2.getString("company_name"));
             }
         }
         getCostDateSt.setString(1, name);
         try (ResultSet rs = getCostDateSt.executeQuery()) {
             while (rs.next()) {
-                System.out.println("\t\tимеет бюджет " + rs.getInt("cost"));
-                System.out.println("\t\tзапущен " + LocalDate.parse(rs.getString("start_date")));
+                lines.add("has budget " + rs.getInt("cost"));
+                lines.add("launched date " + LocalDate.parse(rs.getString("start_date")));
             }
         }
+        return lines;
     }
 
-    public void getListDevelopers (String name) throws SQLException {
+    public List<String> getListDevelopers (String name) throws SQLException {
         getListDevelopersSt.setString(1, name);
+        List<String> lines = new ArrayList<>();
         try (ResultSet rs1 = getListDevelopersSt.executeQuery()) {
             while (rs1.next()) {
-                System.out.println(rs1.getString("lastName") + " " + rs1.getString("firstName") );
+                lines.add(rs1.getString("lastName") + " " + rs1.getString("firstName") );
             }
         }
+        return lines;
     }
 
     public void getQuantityDevelopers (String name) throws SQLException {

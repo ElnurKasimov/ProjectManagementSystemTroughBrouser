@@ -5,7 +5,7 @@ import view.commands.customers.CustomersMenuCommand;
 import view.commands.developers.*;
 import view.commands.main.ChooseTableCommand;
 import view.commands.main.StartCommand;
-import view.commands.projects.ProjectsMenuCommand;
+import view.commands.projects.*;
 import org.thymeleaf.TemplateEngine;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +33,9 @@ public class CommandService {
         commands.put("POST /developers/add", new AddDeveloperCommand());
         commands.put("POST /developers/update", new UpdateDeveloperCommand());
         commands.put("POST /developers/delete", new DeleteDeveloperCommand());
-
+        commands.put("GET /projects/all_projects", new GetInformationAboutAllProjectsCommand());
+        commands.put("GET /projects/project_info", new GetInformationAboutProjectByNameCommand());
+        commands.put("GET /projects/project_developers", new ListProjectDevelopersCommand());
     }
 
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {

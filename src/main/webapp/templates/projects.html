@@ -15,14 +15,14 @@
 <h2>You can get such following information from this table</h2>
 <div>
     <h3>1. List of  all projects </h3>
-    <form method="POST" name="listAllProjects" action="/projects/all_projects">
+    <form method="GET" name="listAllProjects" action="/projects/all_projects">
         <input type="submit" name="listAllProjects_submit" value="Get info">
     </form>
 </div>
 
 <div>
     <h3>2. All info about project </h3>
-    <form method="POST" name="project" action="/project/project">
+    <form method="GET" name="project" action="/projects/project_info">
         Project Name: <input type="text" name="projectName"><br>
         <input type="submit" name="project_submit" value="Get info">
     </form>
@@ -30,7 +30,7 @@
 
 <div>
     <h3>3. List developers of certain project </h3>
-    <form method="POST" name="listDevelopersOfProject" action="/projects/developers">
+    <form method="GET" name="listDevelopersOfProject" action="/projects/project_developers">
         Project Name: <input type="text" name="projectName"><br>
         <input type="submit" name="listDevelopersOfProject_submit" value="Get info">
     </form>
