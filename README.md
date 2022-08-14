@@ -1,3 +1,4 @@
 # ProjectManagementSystem
-client for simple CRM for IT market using Tomcat
-Patterns which used - MVC, Singletone, Listener
+- client for simple CRM for IT market using Tomcat
+- Frameworks used - FlyWay, Thymeleaf
+- Patterns used - MVC, Front Controller, Singletone
