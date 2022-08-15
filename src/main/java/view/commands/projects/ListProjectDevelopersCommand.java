@@ -1,9 +1,8 @@
 package view.commands.projects;
 
 import model.commandService.Command;
-import model.dao.DeveloperDaoService;
 import model.dao.ProjectDaoService;
-import model.default_settings.DBConnection;
+import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 

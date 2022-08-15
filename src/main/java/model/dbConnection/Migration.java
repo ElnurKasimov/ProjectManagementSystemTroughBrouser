@@ -1,4 +1,4 @@
-package model.default_settings;
+package model.dbConnection;
 
 import org.flywaydb.core.Flyway;
 

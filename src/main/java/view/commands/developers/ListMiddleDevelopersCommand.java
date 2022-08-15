@@ -2,7 +2,7 @@ package view.commands.developers;
 
 import model.commandService.Command;
 import model.dao.DeveloperDaoService;
-import model.default_settings.DBConnection;
+import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 

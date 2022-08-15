@@ -5,8 +5,8 @@ import model.dao.CompanyDaoService;
 import model.dao.CustomerDaoService;
 import model.dao.DeveloperDaoService;
 import model.dao.ProjectDaoService;
-import model.default_settings.DBConnection;
-import model.default_settings.Migration;
+import model.dbConnection.DBConnection;
+import model.dbConnection.Migration;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 

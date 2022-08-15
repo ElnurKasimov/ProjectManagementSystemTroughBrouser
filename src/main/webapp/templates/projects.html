@@ -38,7 +38,7 @@
 
 <div>
     <h3>4. Cost of certain project </h3>
-    <form method="POST" name="costOfProject" action="/projects/cost">
+    <form method="GET" name="costOfProject" action="/projects/project_budget">
         Project Name: <input type="text" name="projectName"><br>
         <input type="submit" name="costOfProject_submit" value="Get info">
     </form>
@@ -46,7 +46,7 @@
 
 <div>
     <h3>5. List of  all projects  in format :  "date-name-quantity developers" </h3>
-    <form method="POST" name="listAllProjectsInSpecialFormat" action="/projects/all_projects_in_special_format">
+    <form method="GET" name="listAllProjectsInSpecialFormat" action="/projects/all_projects_in_special_format">
         <input type="submit" name="listAllProjectsInSpecialFormat_submit" value="Get info">
     </form>
 </div>

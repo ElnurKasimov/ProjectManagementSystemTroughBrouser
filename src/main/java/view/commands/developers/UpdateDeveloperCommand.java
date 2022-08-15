@@ -3,14 +3,13 @@ package view.commands.developers;
 import model.commandService.Command;
 import model.dao.DeveloperDaoService;
 import model.dao.TemporaryDeveloper;
-import model.default_settings.DBConnection;
+import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 

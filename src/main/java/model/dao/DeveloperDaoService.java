@@ -1,7 +1,6 @@
 package model.dao;
 
-import com.google.protobuf.MapEntry;
-import model.default_settings.DBConnection;
+import model.dbConnection.DBConnection;
 
 import java.sql.*;
 import java.util.*;

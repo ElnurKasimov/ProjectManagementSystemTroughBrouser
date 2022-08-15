@@ -1,7 +1,7 @@
 package model.dao;
 
 
-import model.default_settings.DBConnection;
+import model.dbConnection.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

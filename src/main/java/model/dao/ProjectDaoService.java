@@ -1,14 +1,12 @@
 package model.dao;
 
-import model.default_settings.DBConnection;
+import model.dbConnection.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.sql.Date;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ProjectDaoService {
@@ -152,20 +150,20 @@ public class ProjectDaoService {
         getCustomerNameByProjectNameSt.setString(1,  name );
         try (ResultSet rs1 = getCustomerNameByProjectNameSt.executeQuery()) {
             while (rs1.next()) {
-                lines.add("ordered by the customer   " + rs1.getString("customer_name"));
+                lines.add("ordered by the customer   " + rs1.getString("customer_name") + ",");
             }
         }
         getCompanyNameByProjectNameSt.setString(1, name);
         try (ResultSet rs2 = getCompanyNameByProjectNameSt.executeQuery()) {
             while (rs2.next()) {
-                lines.add("developed by the IT company " + rs2.getString("company_name"));
+                lines.add("developed by the IT company " + rs2.getString("company_name") + ",");
             }
         }
         getCostDateSt.setString(1, name);
         try (ResultSet rs = getCostDateSt.executeQuery()) {
             while (rs.next()) {
-                lines.add("has budget " + rs.getInt("cost"));
-                lines.add("launched date " + LocalDate.parse(rs.getString("start_date")));
+                lines.add("has budget " + rs.getInt("cost")+ ",");
+                lines.add("launched date " + LocalDate.parse(rs.getString("start_date")) + ".");
             }
         }
         return lines;
@@ -191,29 +189,36 @@ public class ProjectDaoService {
         }
     }
 
-    public void getBudgetByProjectName (String name) throws SQLException {
+    public List<String> getBudgetByProjectName (String name) throws SQLException {
+        List<String> lines = new ArrayList<>();
         getBudgetByProjectNameSt.setString(1, name);
         try (ResultSet rs1 = getBudgetByProjectNameSt.executeQuery()) {
             while (rs1.next()) {
-                System.out.println("\t\tБюджет данного проекта - " +  rs1.getInt("SUM(salary)"));
+                lines.add(rs1.getInt("SUM(salary)") + " USD.");
             }
         }
+        return lines;
     }
 
-    public void getProjectsListInSpecialFormat () throws SQLException {
+    public List<String> getProjectsListInSpecialFormat () throws SQLException {
+        List<String> lines = new ArrayList<>();
+
         try (ResultSet rs = getAllNamesSt.executeQuery()) {
             while (rs.next()) {
-                System.out.print("\t" + LocalDate.parse(rs.getString("start_date")));
+                StringBuilder line = new StringBuilder("");
+                line.append(LocalDate.parse(rs.getString("start_date")));
                 String projectName = rs.getString("project_name");
-                System.out.print(", " + projectName);
+                line.append(" - " + projectName);
                 getQuantityDevelopersByProjectNameSt.setString(1, projectName);
                 try (ResultSet rs1 = getQuantityDevelopersByProjectNameSt.executeQuery()) {
                     while (rs1.next()) {
-                        System.out.println(", " + rs1.getInt("COUNT(developer_id)") + " разработчика(ов)");
+                        line.append(" -  " + rs1.getInt("COUNT(developer_id)") + " developers");
                     }
                 }
+                lines.add(line.toString());
             }
         }
+        return lines;
     }
 
     public long getIdProjectByName(String name) throws SQLException {

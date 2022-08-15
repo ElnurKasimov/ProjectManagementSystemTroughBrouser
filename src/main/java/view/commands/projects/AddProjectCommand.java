@@ -1,4 +1,4 @@
-package view.commands.developers;
+package view.commands.projects;
 
 import model.commandService.Command;
 import model.dao.DeveloperDaoService;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddDeveloperCommand  implements Command {
+public class AddProjectCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         try {

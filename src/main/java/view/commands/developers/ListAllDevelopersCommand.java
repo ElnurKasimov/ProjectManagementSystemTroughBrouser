@@ -2,7 +2,7 @@ package view.commands.developers;
 
 import model.commandService.Command;
 import model.dao.DeveloperDaoService;
-import model.default_settings.DBConnection;
+import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetInformationAboutAllDevelopersCommand  implements Command {
+public class ListAllDevelopersCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         try {

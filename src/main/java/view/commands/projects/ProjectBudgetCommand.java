@@ -1,8 +1,8 @@
-package view.commands.developers;
+package view.commands.projects;
 
 import model.commandService.Command;
-import model.dao.DeveloperDaoService;
-import model.default_settings.DBConnection;
+import model.dao.ProjectDaoService;
+import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -13,19 +13,19 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetInformationAboutDeveloperByNameCommand  implements Command {
+public class ProjectBudgetCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         try {
             resp.setContentType("text/html");
-            Map<String, Object> parametrMap = new HashMap<>();
-            String lastName = req.getParameter("developerLastName");
-            String firstName = req.getParameter("developerFirstName");
-            parametrMap.put("question", "Information about developer " + firstName + " " + lastName);
-            parametrMap.put("lines", DeveloperDaoService.getInstance(DBConnection.getInstance().getConnection()).getInfoByName(lastName, firstName));
+            String projectName = req.getParameter("projectName");
+            Map<String, Object> parameterMap = new HashMap<>();
+            parameterMap.put("question", "Budget of the project " + projectName + " :");
+            parameterMap.put("lines", ProjectDaoService.getInstance(DBConnection.getInstance().getConnection())
+                    .getBudgetByProjectName(projectName));
             Context context = new Context(
                     req.getLocale(),
-                    parametrMap
+                    parameterMap
             );
             engine.process("result", context, resp.getWriter());
             resp.getWriter().close();
