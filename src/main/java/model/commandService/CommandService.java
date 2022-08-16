@@ -40,8 +40,8 @@ public class CommandService {
         commands.put("GET /projects/project_budget", new ProjectBudgetCommand());
         commands.put("GET /projects/all_projects_in_special_format", new ProjectsListInSpecialFormatCommand());
         commands.put("POST /projects/add", new AddProjectCommand());
-
-
+        commands.put("POST /projects/update", new UpdateProjectCommand());
+        commands.put("POST /projects/delete", new DeleteProjectCommand());
     }
 
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {

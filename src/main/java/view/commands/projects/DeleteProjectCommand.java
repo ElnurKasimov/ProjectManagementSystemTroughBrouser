@@ -1,7 +1,8 @@
-package view.commands.developers;
+package view.commands.projects;
 
 import model.commandService.Command;
 import model.dao.DeveloperDaoService;
+import model.dao.ProjectDaoService;
 import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -13,17 +14,16 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeleteDeveloperCommand  implements Command {
+public class DeleteProjectCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         try {
             resp.setContentType("text/html");
             Map<String, Object> parameterMap = new HashMap<>();
-            String lastName = req.getParameter("developerLastName");
-            String firstName = req.getParameter("developerFirstName");
-            parameterMap.put("question", "Developer " + firstName + " " + lastName);
-            parameterMap.put("lines",
-                    DeveloperDaoService.getInstance(DBConnection.getInstance().getConnection()).deleteDeveloper(lastName, firstName));
+            String projectName = req.getParameter("projectName");
+            parameterMap.put("question", "Project " + projectName);
+            parameterMap.put("lines", ProjectDaoService.getInstance(DBConnection.getInstance().getConnection())
+                    .deleteProject(projectName));
             Context context = new Context(
                     req.getLocale(),
                     parameterMap

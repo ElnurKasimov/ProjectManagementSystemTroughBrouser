@@ -337,7 +337,7 @@ public class DeveloperDaoService {
         developers.removeIf(nextDeveloper -> nextDeveloper.getDeveloper_id() == idToDelete);
         if (!existsDeveloper(idToDelete)) {lines.add("Successfully removed from the database.");}
         else {
-            lines.add("Something went wrong and the developer was not removed to the database");
+            lines.add("Something went wrong and the developer was not removed to the database.");
         }
         return lines;
     }

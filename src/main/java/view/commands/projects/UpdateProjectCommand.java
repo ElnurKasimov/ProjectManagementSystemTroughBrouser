@@ -12,14 +12,12 @@ import org.thymeleaf.context.Context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddProjectCommand implements Command {
+public class UpdateProjectCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
-        try {
             resp.setContentType("text/html");
             Map<String, Object> parameterMap = new HashMap<>();
             TemporaryProject temporaryProject = new TemporaryProject();
@@ -30,15 +28,12 @@ public class AddProjectCommand implements Command {
             temporaryProject.setStartDate(req.getParameter("startDate"));
             parameterMap.put("question", "Project " + temporaryProject.getProjectName() + ":");
             parameterMap.put("lines", ProjectDaoService.getInstance(DBConnection.getInstance().getConnection()).
-                    addProject(temporaryProject));
+                    updateProject(temporaryProject));
             Context context = new Context(
                     req.getLocale(),
                     parameterMap
             );
             engine.process("result", context, resp.getWriter());
             resp.getWriter().close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

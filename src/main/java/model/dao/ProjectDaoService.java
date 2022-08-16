@@ -270,7 +270,7 @@ public class ProjectDaoService {
             return lines;
         }
         long customerId = CustomerDaoService.getInstance(
-                DBConnection.getInstance().getConnection()).getIdCustomerByName(temporaryProject.getCompanyName());
+                DBConnection.getInstance().getConnection()).getIdCustomerByName(temporaryProject.getCustomerName());
         addProjectSt.setLong(4, customerId);
         addProjectSt.setInt(5, temporaryProject.getProjectCost());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
@@ -278,7 +278,6 @@ public class ProjectDaoService {
         java.sql.Date startSqlDate = java.sql.Date.valueOf(startLocalDate);
         addProjectSt.setDate(6, startSqlDate);
         addProjectSt.executeUpdate();
-
         Project project = new Project();
         project.setProject_id(newProjectId);
         project.setProject_name(temporaryProject.getProjectName());
@@ -289,6 +288,21 @@ public class ProjectDaoService {
         projects.add(project);
         if (existsProject(newProjectId)) lines.add("was successfully added");
         else lines.add("Something went wrong and the developer was not added to the database");
+        return lines;
+    }
+
+    public List<String> updateProject(TemporaryProject temporaryProject) {
+        List<String> lines = new ArrayList<>();
+        long idToDelete;
+        try {
+            idToDelete = ProjectDaoService.getInstance(DBConnection.getInstance().getConnection()).
+                    getIdByName(temporaryProject.getProjectName());
+            ProjectDaoService.getInstance(DBConnection.getInstance().getConnection()).deleteProject(idToDelete);
+            addProject(temporaryProject);
+            lines.add("was successfully updated");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return lines;
     }
 
@@ -310,28 +324,33 @@ public class ProjectDaoService {
         return id;
     }
 
-    public void deleteProject(String name) throws SQLException {
+    public List<String> deleteProject(String name) throws SQLException {
+        List<String> lines = new ArrayList<>();
         long idToDelete = getIdByName(name);
         deleteProjectFromProjectDevelopersByIdSt.setLong(1, idToDelete);
         deleteProjectFromProjectDevelopersByIdSt.executeUpdate();
         deleteProjectFromProjectsByIdSt.setLong(1, idToDelete);
         deleteProjectFromProjectsByIdSt.executeUpdate();
         projects.removeIf(nextProject -> nextProject.getProject_id() == idToDelete);
-        if (!existsProject(idToDelete)) { System.out.println("Проект успешно удален из базы данных.");}
+        if (!existsProject(idToDelete)) { lines.add("Successfully removed from the database.");}
         else {
-            System.out.println("Что-то пошло не так и проект не был удален из базы данных");
+            lines.add("Something went wrong and the developer was not removed to the database.");
         }
+        return  lines;
     }
 
-    public void deleteProject(long id) throws SQLException {
+    public List<String> deleteProject(long id) throws SQLException {
+        List<String> lines = new ArrayList<>();
         deleteProjectFromProjectDevelopersByIdSt.setLong(1, id);
         deleteProjectFromProjectDevelopersByIdSt.executeUpdate();
         deleteProjectFromProjectsByIdSt.setLong(1, id);
         deleteProjectFromProjectsByIdSt.executeUpdate();
         projects.removeIf(nextProject -> nextProject.getProject_id() == id);
-        if (!existsProject(id)) { System.out.println("Проект успешно удален из базы данных.");}
+        if (!existsProject(id)) { lines.add("Successfully removed from the database.");}
         else {
-            System.out.println("Что-то пошло не так и проект не был удален из базы данных");
+            lines.add("Something went wrong and the developer was not removed to the database.");
         }
+        return  lines;
     }
+
 }
