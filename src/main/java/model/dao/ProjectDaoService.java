@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ProjectDaoService {
@@ -231,8 +232,8 @@ public class ProjectDaoService {
         return result;
     }
 
-    public int addProject(String name) throws SQLException {
-       /*
+    public List<String> addProject(TemporaryProject temporaryProject) throws SQLException {
+        List<String> lines = new ArrayList<>();
         long newProjectId;
         try(ResultSet rs = selectMaxIdSt.executeQuery()) {
             rs.next();
@@ -240,62 +241,55 @@ public class ProjectDaoService {
         }
         newProjectId++;
         addProjectSt.setLong(1, newProjectId);
-        addProjectSt.setString(2, name);
-        Scanner sc6 = new Scanner(System.in);
-        System.out.print("\tНазвание компании,  которая его разрабатывает : ");
-        String company = sc6.nextLine();
-        if(company.equals("")) company= sc6.nextLine();
+        addProjectSt.setString(2, temporaryProject.getProjectName());
+
         boolean isCompanyNameCorrect = false;
-        for (Company companyFromField : CompanyDaoService.companies) {
-            if (companyFromField.getCompany_name().equals(company)) {
+        List<Company> companies = CompanyDaoService.companies;
+        for (Company companyFromField : companies) {
+            if (companyFromField.getCompany_name().equals(temporaryProject.getCompanyName())) {
                 isCompanyNameCorrect = true;
             };
         }
         if (!isCompanyNameCorrect) {
-            System.out.println("Компании с таким именем не существует. Введите корректные данные или внесите эту компанию в базу данных в разделе \"companies\" ");
-            return -1;
+            lines.add("There is no company with such name. Please input this into database in the section \"companies\" ");
+            return lines;
         }
-        long companyId = CompanyDaoService.getInstance(DBConnection.getInstance().getConnection()).getIdCompanyByName(company);
+        long companyId = CompanyDaoService.getInstance(
+                DBConnection.getInstance().getConnection()).getIdCompanyByName(temporaryProject.getCompanyName());
         addProjectSt.setLong(3, companyId);
-        System.out.print("\tНазвание заказчика этого проекта : ");
-        String customer = sc6.nextLine();
-        if(customer.equals("")) customer= sc6.nextLine();
+
         boolean isCustomerNameCorrect = false;
-        for (Customer customerFromField : CustomerDaoService.customers) {
-            if (customerFromField.getCustomer_name().equals(customer)) {
+        List<Customer> customers = CustomerDaoService.customers;
+        for (Customer customerFromField : customers) {
+            if (customerFromField.getCustomer_name().equals(temporaryProject.getCustomerName())) {
                 isCustomerNameCorrect = true;
             };
         }
         if (!isCustomerNameCorrect) {
-            System.out.println("Заказчика с таким именем не существует. Введите корректные данные или внесите этого заказчика в базу данных в разделе \"companies\" ");
-            return -1;
+            lines.add("There is no customer with such name. Please input this into database in the section \"customers\" ");
+            return lines;
         }
-        long customerId = new CustomerDaoService(DBConnection.getInstance().getConnection()).getIdCustomerByName(customer);
+        long customerId = CustomerDaoService.getInstance(
+                DBConnection.getInstance().getConnection()).getIdCustomerByName(temporaryProject.getCompanyName());
         addProjectSt.setLong(4, customerId);
-        System.out.print("\tСтоимость проекта : ");
-        int cost = sc6.nextInt();
-        addProjectSt.setInt(5, cost);
-        System.out.print("\tВведите дату запуска проекта в формате (ГГГГ-ММ-ДД) : ");
-        String startDate = sc6.nextLine();
-        if(startDate.equals("")) startDate= sc6.nextLine();
+        addProjectSt.setInt(5, temporaryProject.getProjectCost());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        LocalDate startLocalDate = LocalDate.parse(startDate, dtf);
+        LocalDate startLocalDate = LocalDate.parse(temporaryProject.getStartDate(), dtf);
         java.sql.Date startSqlDate = java.sql.Date.valueOf(startLocalDate);
         addProjectSt.setDate(6, startSqlDate);
         addProjectSt.executeUpdate();
+
         Project project = new Project();
         project.setProject_id(newProjectId);
-        project.setProject_name(name);
+        project.setProject_name(temporaryProject.getProjectName());
         project.setCompany_id(companyId);
         project.setCustomer_id(customerId);
-        project.setCost(cost);
+        project.setCost(temporaryProject.getProjectCost());
         project.setStart_date(startLocalDate);
         projects.add(project);
-        if (existsProject(newProjectId)) {System.out.println("Проект успешно добавлен");}
-        else System.out.println("Что-то пошло не так и проект не был добавлен в базу данных");
-             */
-        return +1;
-
+        if (existsProject(newProjectId)) lines.add("was successfully added");
+        else lines.add("Something went wrong and the developer was not added to the database");
+        return lines;
     }
 
     public boolean existsProject(long id) throws SQLException {

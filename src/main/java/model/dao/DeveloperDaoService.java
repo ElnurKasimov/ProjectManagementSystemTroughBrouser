@@ -295,6 +295,7 @@ public class DeveloperDaoService {
         addDeveloperSt.executeUpdate();
         addProjectDeveloperSt.executeUpdate();
         addDeveloperSkillSt.executeUpdate();
+
         if (existsDeveloper(newDeveloperId)) lines.add("was successfully added");
         else lines.add("Something went wrong and the developer was not added to the database");
         return lines;

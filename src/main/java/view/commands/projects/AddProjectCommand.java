@@ -2,7 +2,9 @@ package view.commands.projects;
 
 import model.commandService.Command;
 import model.dao.DeveloperDaoService;
+import model.dao.ProjectDaoService;
 import model.dao.TemporaryDeveloper;
+import model.dao.TemporaryProject;
 import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -20,17 +22,16 @@ public class AddProjectCommand implements Command {
         try {
             resp.setContentType("text/html");
             Map<String, Object> parameterMap = new HashMap<>();
-            TemporaryDeveloper temporaryDeveloper = new TemporaryDeveloper();
-            temporaryDeveloper.setLastName(req.getParameter("developerLastName"));
-            temporaryDeveloper.setFirstName(req.getParameter("developerFirstName"));
-            temporaryDeveloper.setAge(Integer.parseInt(req.getParameter("developerAge")));
-            temporaryDeveloper.setCompanyName(req.getParameter("developerCompany"));
-            temporaryDeveloper.setProjectName(req.getParameter("developerProject"));
-            temporaryDeveloper.setSalary(Integer.parseInt(req.getParameter("developerSalary")));
-            temporaryDeveloper.setLanguage(req.getParameter("developerLanguage"));
-            temporaryDeveloper.setLanguageLevel(req.getParameter("developerLanguageLevel"));
-            parameterMap.put("question", "Developer " + temporaryDeveloper.getFirstName() + " " + temporaryDeveloper.getLastName());
-            parameterMap.put("lines", DeveloperDaoService.getInstance(DBConnection.getInstance().getConnection()).addDeveloper(temporaryDeveloper));
+            TemporaryProject temporaryProject = new TemporaryProject();
+            temporaryProject.setProjectName(req.getParameter("projectName"));
+            temporaryProject.setCompanyName(req.getParameter("companyName"));
+            temporaryProject.setCustomerName(req.getParameter("customerName"));
+            temporaryProject.setProjectCost(Integer.parseInt(req.getParameter("projectCost")));
+            temporaryProject.setStartDate(req.getParameter("startDate"));
+            System.out.println(temporaryProject);
+            parameterMap.put("question", "Project " + temporaryProject.getProjectName() + ":");
+            parameterMap.put("lines", ProjectDaoService.getInstance(DBConnection.getInstance().getConnection()).
+                    addProject(temporaryProject));
             Context context = new Context(
                     req.getLocale(),
                     parameterMap
