@@ -94,14 +94,16 @@ public class CompanyDaoService {
         return INSTANCE;
     }
 
-    public void getAllNames() throws SQLException {
-        System.out.println("Список всех IT компаний :");
+    public List<String> getAllNames() throws SQLException {
+        List<String> lines = new ArrayList<>();
+
         try (ResultSet rs = getAllNamesSt.executeQuery()) {
             while (rs.next()) {
+                StringBuilder line = new StringBuilder("");
                 long companyID = rs.getLong("company_id");
                 String companyName = rs.getString("company_name");
                 String companyRating = rs.getString("rating");
-                System.out.print("\t" + companyID + ". " + companyName + ", рейтинг - " + companyRating);
+                line.append(companyID + ". " + companyName + ", rating - " + companyRating);
                 getQuantityEmployeeSt.setString(1, "%" + companyName + "%");
                 int result = 0;
                 try (ResultSet rs1 = getQuantityEmployeeSt.executeQuery()) {
@@ -109,9 +111,11 @@ public class CompanyDaoService {
                         result = rs1.getInt("COUNT(developer_id)");
                     }
                 }
-                System.out.println(",  количество сотрудников - " + result);
+                line.append(",  quantity of emloyees - " + result);
+                lines.add(line.toString());
             }
         }
+        return lines;
     }
 
     public long getIdCompanyByName(String name) throws SQLException {
@@ -136,32 +140,25 @@ public class CompanyDaoService {
         return projectsList;
     }
 
-    public void addCompany() throws SQLException {
+    public List<String> addCompany(String companyName, String companyRating) throws SQLException {
+        List<String> lines = new ArrayList<>();
         long newCompanyId;
         try (ResultSet rs = selectMaxIdSt.executeQuery()) {
             rs.next();
             newCompanyId = rs.getLong("maxId");
         }
         newCompanyId++;
-        System.out.print("Введите название компании : ");
-        Scanner sc = new Scanner(System.in);
-        String newCompanyName = sc.nextLine();
-        System.out.print("Введите рейтинг компании (hight, middle, low) : ");
-        String newCompanyRating = sc.nextLine();
         addCompanySt.setLong(1, newCompanyId);
-        addCompanySt.setString(2, newCompanyName);
-        addCompanySt.setString(3, newCompanyRating);
+        addCompanySt.setString(2, companyName);
+        addCompanySt.setString(3, companyRating);
         Company company = new Company();
-
         company.setCompany_id(newCompanyId);
-        company.setCompany_name(newCompanyName);
-        company.setRating(Company.Rating.valueOf(newCompanyRating));
-
+        company.setCompany_name(companyName);
+        company.setRating(Company.Rating.valueOf(companyRating));
         addCompanySt.executeUpdate();
-
-        if (existsCompany(newCompanyId)) {
-            System.out.println("Компания успешно добавлена");
-        } else System.out.println("Что-то пошло не так и компания не была  добавлен в базу данных");
+        if (existsCompany(newCompanyId)) lines.add("was successfully added");
+        else lines.add("Something went wrong and the company was not added to the database");
+        return lines;
     }
 
     public boolean existsCompany(long id) throws SQLException {
@@ -172,16 +169,17 @@ public class CompanyDaoService {
         }
     }
 
-    public void deleteCompany(String name) throws SQLException {
+    public List<String> deleteCompany(String name) throws SQLException {
+        List<String> lines = new ArrayList<>();
         long idToDelete = getIdCompanyByName(name);
         deleteCompanyFromCompaniesByNameSt.setString(1, "%" + name + "%");
         deleteCompanyFromCompaniesByNameSt.executeUpdate();
         companies.removeIf(company -> company.getCompany_name().equals(name));
-        if (!existsCompany(idToDelete)) {
-            System.out.println("Компания успешно удалена из базы данных.");
-        } else {
-            System.out.println("Что-то пошло не так и компания не была удалена из базы данных");
+        if (!existsCompany(idToDelete)) lines.add("successfully removed from the database.");
+        else {
+        lines.add("Something went wrong and the company was not removed to the database.");
         }
+        return lines;
     }
 
 }

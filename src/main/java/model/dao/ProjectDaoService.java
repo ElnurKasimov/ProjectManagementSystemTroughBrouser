@@ -287,7 +287,7 @@ public class ProjectDaoService {
         project.setStart_date(startLocalDate);
         projects.add(project);
         if (existsProject(newProjectId)) lines.add("was successfully added");
-        else lines.add("Something went wrong and the developer was not added to the database");
+        else lines.add("Something went wrong and the project was not added to the database");
         return lines;
     }
 
@@ -334,7 +334,7 @@ public class ProjectDaoService {
         projects.removeIf(nextProject -> nextProject.getProject_id() == idToDelete);
         if (!existsProject(idToDelete)) { lines.add("Successfully removed from the database.");}
         else {
-            lines.add("Something went wrong and the developer was not removed to the database.");
+            lines.add("Something went wrong and the project was not removed to the database.");
         }
         return  lines;
     }

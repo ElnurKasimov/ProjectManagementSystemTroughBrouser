@@ -1,6 +1,6 @@
 package view.commands.main;
 
-import model.commandService.Command;
+import control.commandService.Command;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 

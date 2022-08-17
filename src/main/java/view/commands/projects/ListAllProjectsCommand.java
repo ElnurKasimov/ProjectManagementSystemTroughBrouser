@@ -1,6 +1,6 @@
 package view.commands.projects;
 
-import model.commandService.Command;
+import control.commandService.Command;
 import model.dao.ProjectDaoService;
 import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ListOfAllProjectsCommand implements Command {
+public class ListAllProjectsCommand implements Command {
     @Override
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {
         try {

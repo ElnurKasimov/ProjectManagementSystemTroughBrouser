@@ -1,6 +1,6 @@
 package view.commands.projects;
 
-import model.commandService.Command;
+import control.commandService.Command;
 import model.dao.ProjectDaoService;
 import model.dbConnection.DBConnection;
 import org.thymeleaf.TemplateEngine;

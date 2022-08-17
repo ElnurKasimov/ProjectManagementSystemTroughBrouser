@@ -1,7 +1,13 @@
-package model.commandService;
+package control.commandService;
 
+import view.commands.companies.AddCompanyCommand;
 import view.commands.companies.CompaniesMenuCommand;
+import view.commands.companies.DeleteCompanyCommand;
+import view.commands.companies.ListAllCompaniesCommand;
+import view.commands.customers.AddCustomerCommand;
 import view.commands.customers.CustomersMenuCommand;
+import view.commands.customers.DeleteCustomerCommand;
+import view.commands.customers.ListAllCustomersCommand;
 import view.commands.developers.*;
 import view.commands.projects.*;
 
@@ -34,7 +40,7 @@ public class CommandService {
         commands.put("POST /developers/add", new AddDeveloperCommand());
         commands.put("POST /developers/update", new UpdateDeveloperCommand());
         commands.put("POST /developers/delete", new DeleteDeveloperCommand());
-        commands.put("GET /projects/all_projects", new ListOfAllProjectsCommand());
+        commands.put("GET /projects/all_projects", new ListAllProjectsCommand());
         commands.put("GET /projects/project_info", new InformationAboutProjectByNameCommand());
         commands.put("GET /projects/project_developers", new ListProjectDevelopersCommand());
         commands.put("GET /projects/project_budget", new ProjectBudgetCommand());
@@ -42,6 +48,12 @@ public class CommandService {
         commands.put("POST /projects/add", new AddProjectCommand());
         commands.put("POST /projects/update", new UpdateProjectCommand());
         commands.put("POST /projects/delete", new DeleteProjectCommand());
+        commands.put("GET /companies/all_companies", new ListAllCompaniesCommand());
+        commands.put("POST /companies/add", new AddCompanyCommand());
+        commands.put("POST /companies/delete", new DeleteCompanyCommand());
+        commands.put("GET /customers/all_customers", new ListAllCustomersCommand());
+        commands.put("POST /customers/add", new AddCustomerCommand());
+        commands.put("POST /customers/delete", new DeleteCustomerCommand());
     }
 
     public void process(HttpServletRequest req, HttpServletResponse resp, TemplateEngine engine) throws IOException {

@@ -1,4 +1,4 @@
-package model.commandService;
+package control.commandService;
 
 import org.thymeleaf.TemplateEngine;
 

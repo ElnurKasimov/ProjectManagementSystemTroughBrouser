@@ -1,5 +1,5 @@
 {
-  "dbUrl" :  "jdbc:mysql://127.0.0.1:3307",
+  "dbUrl" :  "jdbc:mysql://127.0.0.1:3306/it_market",
   "dbUserName" :  "root",
   "dbPassword" :  "$Elnur&Kasimov1972"
   }

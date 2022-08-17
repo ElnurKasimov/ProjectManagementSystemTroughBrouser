@@ -1,12 +1,13 @@
 package control;
 
-import model.commandService.CommandService;
+import control.commandService.CommandService;
 import model.dao.CompanyDaoService;
 import model.dao.CustomerDaoService;
 import model.dao.DeveloperDaoService;
 import model.dao.ProjectDaoService;
 import model.dbConnection.DBConnection;
 import model.dbConnection.Migration;
+import model.dbConnection.Prefs;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
@@ -27,6 +28,7 @@ public class FrontController extends HttpServlet {
 
     private ServletConfig config;
     public static String PROJECT_ROOT;
+    public static Prefs prefs;
     public static final int LENGTH_SUBDIRECTORIES_NAMES = 16;
 
     @Override
@@ -43,8 +45,8 @@ public class FrontController extends HttpServlet {
         resolver.setOrder(engine.getTemplateResolvers().size());
         resolver.setCacheable(false);
         engine.addTemplateResolver(resolver);
-
         commandService = new CommandService();
+        prefs = new Prefs(PROJECT_ROOT+"prefs.json");
         dbConnection = DBConnection.getInstance();
         new Migration().initDb(dbConnection);
         DeveloperDaoService.getInstance(dbConnection.getConnection());

@@ -81,20 +81,23 @@ public class CustomerDaoService {
         }
         return INSTANCE;
     }
-    public void getAllNames() throws SQLException {
-        System.out.println("Список всех  заказчиков :");
+    public List<String> getAllNames() throws SQLException {
+        List<String> lines = new ArrayList<>();
         try (ResultSet rs = getAllNamesSt.executeQuery()) {
             while (rs.next()) {
+                StringBuilder line = new StringBuilder("");
                 long customerID = rs.getLong("customer_id");
                 String customerName = rs.getString("customer_name");
                 String customerReputation = rs.getString("reputation");
-                System.out.print("\t" + customerID + ". " + customerName + ", репутация - " + customerReputation);
-                System.out.println(", является заказчиком следующих проектов: ");
+                line.append(customerID + ". " + customerName + ", reputation - " + customerReputation);
+                line.append(", is the customer of the following projects: ");
                 for (String project : getProjectsNames(customerName)) {
-                    System.out.println("\t\t" + project);
+                    line.append(project + ", ");
                 }
+                lines.add(line.toString());
             }
         }
+        return lines;
     }
 
     public ArrayList<String>  getProjectsNames(String customerName) throws SQLException {
@@ -108,31 +111,25 @@ public class CustomerDaoService {
         return projectNames;
     }
 
-    public void addCustomer() throws SQLException {
+    public List<String> addCustomer(String customerName, String customerReputation) throws SQLException {
+        List<String> lines = new ArrayList<>();
         long newCustomerId;
         try(ResultSet rs = selectMaxIdSt.executeQuery()) {
             rs.next();
             newCustomerId = rs.getLong("maxId");
         }
         newCustomerId++;
-        System.out.print("\tВведите название заказчика : ");
-        Scanner sc = new Scanner(System.in);
-        String newCustomerName = sc.nextLine();
-        System.out.print("\tВведите репутацию заказчика (trustworthy, respectable, insolvent) : ");
-        String newCustomerReputation = sc.nextLine();
         addCustomerSt.setLong(1, newCustomerId);
-        addCustomerSt.setString(2, newCustomerName);
-        addCustomerSt.setString(3, newCustomerReputation);
+        addCustomerSt.setString(2, customerName);
+        addCustomerSt.setString(3, customerReputation);
         Customer  customer = new Customer();
-
         customer.setCustomer_id(newCustomerId);
-        customer.setCustomer_name(newCustomerName);
-        customer.setReputation(Customer.Reputation.valueOf(newCustomerReputation));
-
+        customer.setCustomer_name(customerName);
+        customer.setReputation(Customer.Reputation.valueOf(customerReputation));
         addCustomerSt.executeUpdate();
-
-        if (existsCustomer(newCustomerId)) {System.out.println("Заказчик успешно добавлен");}
-        else System.out.println("Что-то пошло не так и заказчик не был  добавлен в базу данных");
+        if (existsCustomer(newCustomerId)) lines.add("was successfully added");
+        else lines.add("Something went wrong and the customer was not added to the database");
+        return lines;
     }
 
     public boolean existsCustomer(long id) throws SQLException {
@@ -154,14 +151,16 @@ public class CustomerDaoService {
         return result;
     }
 
-    public void deleteCustomer(String name) throws SQLException {
+    public List<String> deleteCustomer(String name) throws SQLException {
+        List<String> lines = new ArrayList<>();
         long idToDelete = getIdCustomerByName(name);
         deleteCustomerFromCustomersByNameSt.setString(1, "%" + name + "%");
         deleteCustomerFromCustomersByNameSt.executeUpdate();
         customers.removeIf(customer -> customer.getCustomer_name().equals(name));
-        if (!existsCustomer(idToDelete)) { System.out.println("Заказчик успешно удален из базы данных.");}
+        if (!existsCustomer(idToDelete)) lines.add("successfully removed from the database.");
         else {
-            System.out.println("Что-то пошло не так и заказчик не был удален из базы данных");
+            lines.add("Something went wrong and the customer was not removed to the database.");
         }
+        return lines;
     }
 }
