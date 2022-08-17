@@ -3,8 +3,5 @@
 - Frameworks used - FlyWay, Thymeleaf
 - Patterns used - MVC, Front Controller, Singletone
 
-There are several importatn files in the root directory:
-
-prefs.json - contains database access settings. You can put into Your own,
-initDB.sql - creates MySQL database,
-populateDB.sql - fills database with the original values
+There is important file in the root directory - prefs.json.
+It contains database access settings. Please put into Your own before launch programm.
