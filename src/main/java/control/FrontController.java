@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @WebServlet("/*")
 public class FrontController extends HttpServlet {
@@ -34,12 +35,20 @@ public class FrontController extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException  {
         this.config = config;
+        /*
+        Getting PROJECT_ROOT from servlets getRealPath
         ServletContext sc = config.getServletContext();
         String tomcatDestination = sc.getRealPath("/").replace('\\', '/') ;
         PROJECT_ROOT = tomcatDestination.substring(0, tomcatDestination.length() - LENGTH_SUBDIRECTORIES_NAMES);
+
+         */
+       // Getting PROJECT_ROOT from environment variables
+
+       PROJECT_ROOT = System.getenv().get("PROJECT_HOME");
+
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix(PROJECT_ROOT  + "src/main//webapp/templates/");
+        resolver.setPrefix(PROJECT_ROOT  + "/src/main//webapp/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
