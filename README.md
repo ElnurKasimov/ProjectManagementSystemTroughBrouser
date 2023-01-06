@@ -1,5 +1,5 @@
 # ProjectManagementSystem
-- web application for simple CRM for IT market using Tomcat
+- web application for simple PMS using Tomcat and PostgreSQL DB
 - Libraries used - FlyWay, Thymeleaf
 - Patterns used - MVC, Front Controller, Singletone
 
